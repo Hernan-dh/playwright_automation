@@ -39,5 +39,7 @@
 | Automated test traceability | `docs/TRACEABILITY.md`, `scripts/check_traceability.py` | Implemented; 47 executable case IDs verified |
 | Evidence governance | `docs/EVIDENCE.md`, CI artifacts, and versioned baselines | Implemented; external and interactive evidence explicitly tracked |
 | Portfolio trace showcase | `playwright.showcase.config.ts`, `npm run showcase` | Implemented; passing runs retain screenshots and traces |
+| Public evidence website | `portfolio`, `scripts/build_portfolio_site.py`, GitHub Pages | Implemented; deployment awaits the first published workflow run |
+| Public Netcup mirror | `deploy/netcup`, `.github/workflows/netcup.yml` | Optional and repository-ready; requires server variables and SSH secret |
 
 The repository keeps Playwright Test as the single primary runner. Cucumber provides a focused BDD example, while the Mocha guide explains migration without duplicating the suite.

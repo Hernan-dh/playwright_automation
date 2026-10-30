@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Public Playwright QA automation portfolio with executable evidence, traces, CI, and cross-browser coverage.">
+  <title>Playwright QA Engineering Portfolio</title><link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="hero">
+    <nav aria-label="Primary navigation"><a class="brand" href="#top">QA<span>/</span>Playwright</a><div class="nav-links"><a href="#coverage">Coverage</a><a href="#pipeline">Pipeline</a><a href="#evidence">Evidence</a><a href="report/index.html">Live report</a></div></nav>
+    <div id="top" class="hero-grid">
+      <div><p class="eyebrow">Public automation laboratory</p><h1>Evidence-first testing across UI, API, browsers, and CI.</h1><p class="lede">A production-shaped Playwright portfolio built around risk, deterministic execution, traceability, and artifacts that reviewers can inspect.</p><div class="actions"><a class="button primary" href="report/index.html">Explore the HTML report</a><a class="button secondary" href="https://github.com/Hernan-dh/playwright_automation">View source on GitHub</a></div></div>
+      <aside class="run-card" aria-label="Latest published build"><div class="status-line"><span class="pulse"></span><span>Published evidence</span></div><dl><div><dt>Commit</dt><dd><a id="commit-link" href="https://github.com/Hernan-dh/playwright_automation">loading</a></dd></div><div><dt>Generated</dt><dd id="generated-at">loading</dd></div><div><dt>CI run</dt><dd><a id="run-link" href="https://github.com/Hernan-dh/playwright_automation/actions">GitHub Actions</a></dd></div></dl></aside>
+    </div>
+  </header>
+  <main id="main">
+    <section class="metrics" aria-label="Portfolio metrics"><article><strong>47</strong><span>traceable case IDs</span></article><article><strong>3</strong><span>browser engines</span></article><article><strong>11</strong><span>trace showcase cases</span></article><article><strong>0</strong><span>known npm vulnerabilities</span></article></section>
+    <section id="coverage" class="section"><div class="section-heading"><p class="eyebrow">Risk-based coverage</p><h2>One portfolio, multiple test layers.</h2><p>Each layer has a defined risk, executable source, reference environment, and expected evidence.</p></div><div class="capability-grid">
+      <article><span>01</span><h3>Critical E2E</h3><p>Authentication, cart state, checkout validation, order integrity, cancellation, and successful purchase.</p></article>
+      <article><span>02</span><h3>API & contracts</h3><p>Authentication, lifecycle cleanup, API-to-UI state, JSON Schema validation, and deterministic loopback services.</p></article>
+      <article><span>03</span><h3>Browser behavior</h3><p>Chromium, Firefox, WebKit, mobile emulation, permissions, geolocation, offline state, dialogs, frames, and tabs.</p></article>
+      <article><span>04</span><h3>Quality attributes</h3><p>Accessibility, visual regression, performance budgets, defensive headers, downloads, uploads, and Excel workflows.</p></article>
+    </div></section>
+    <section id="pipeline" class="section pipeline-section"><div class="section-heading"><p class="eyebrow">Delivery pipeline</p><h2>From change to inspectable evidence.</h2></div><ol class="pipeline" aria-label="Continuous integration pipeline">
+      <li><span>1</span><div><strong>Verify</strong><p>Secrets, whitespace, versions, TypeScript, traceability, audit, and deterministic Chromium gate.</p></div></li><li><span>2</span><div><strong>Exercise</strong><p>Smoke, network, mobile, and the Chromium–Firefox–WebKit compatibility matrix in Docker.</p></div></li><li><span>3</span><div><strong>Parallelize</strong><p>Regression shards execute independently and merge into a single Playwright report.</p></div></li><li><span>4</span><div><strong>Publish</strong><p>Curated screenshots, traces, HTML reports, and this static evidence site become reviewable artifacts.</p></div></li>
+    </ol></section>
+    <section id="evidence" class="section evidence-section"><div class="section-heading"><p class="eyebrow">Public evidence</p><h2>Claims backed by executable artifacts.</h2></div><div class="evidence-grid">
+      <a href="report/index.html"><small>Interactive</small><strong>Playwright HTML report</strong><span>Open report →</span></a><a href="https://github.com/Hernan-dh/playwright_automation/actions/runs/41141799551"><small>External</small><strong>Shards and report merge</strong><span>Open CI run →</span></a><a href="https://github.com/Hernan-dh/playwright_automation/blob/main/docs/TRACEABILITY.md"><small>Governance</small><strong>Test traceability matrix</strong><span>Inspect matrix →</span></a><a href="https://github.com/Hernan-dh/playwright_automation/tree/main/specs/agent-runs"><small>Agent workflow</small><strong>Planner → generator → healer</strong><span>Review evidence →</span></a>
+    </div><p class="privacy-note">Only controlled, synthetic scenarios are published. Credentials, storage state, private endpoints, and unreviewed traces are excluded.</p></section>
+    <section class="section architecture-section"><div class="section-heading"><p class="eyebrow">Portable publishing</p><h2>One static build, two public destinations.</h2></div><div class="architecture" role="img" aria-label="GitHub Actions builds the portfolio and publishes it to GitHub Pages, with an optional public Netcup mirror"><div><small>Source</small><strong>GitHub repository</strong></div><i>→</i><div><small>Build</small><strong>Actions + Playwright</strong></div><i>→</i><div class="destinations"><span><small>Primary</small><strong>GitHub Pages</strong></span><span><small>Optional mirror</small><strong>Netcup + Nginx</strong></span></div></div></section>
+  </main>
+  <footer><p>Built as a public, reproducible QA engineering portfolio.</p><a href="https://github.com/Hernan-dh/playwright_automation">Repository</a></footer><script src="app.js"></script>
+</body></html>

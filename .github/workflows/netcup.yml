@@ -1,0 +1,34 @@
+name: Publish Netcup Mirror
+on:
+  workflow_dispatch: {}
+permissions:
+  contents: read
+jobs:
+  publish:
+    if: vars.NETCUP_DEPLOY_ENABLED == 'true'
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with: { node-version: 20, cache: npm }
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - run: npm run showcase
+      - run: python scripts/build_portfolio_site.py
+      - name: Configure deployment key
+        env:
+          NETCUP_SSH_KEY: ${{ secrets.NETCUP_SSH_KEY }}
+          NETCUP_KNOWN_HOSTS: ${{ secrets.NETCUP_KNOWN_HOSTS }}
+        run: |
+          install -m 700 -d ~/.ssh
+          printf '%s' "$NETCUP_SSH_KEY" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+          printf '%s\n' "$NETCUP_KNOWN_HOSTS" > ~/.ssh/known_hosts
+      - name: Publish static mirror
+        env:
+          NETCUP_HOST: ${{ vars.NETCUP_HOST }}
+          NETCUP_USER: ${{ vars.NETCUP_USER }}
+          NETCUP_DEPLOY_PATH: ${{ vars.NETCUP_DEPLOY_PATH }}
+        run: |
+          case "$NETCUP_DEPLOY_PATH" in ""|"/") echo "Unsafe deployment path"; exit 1;; esac
+          rsync -az --delete dist/ "$NETCUP_USER@$NETCUP_HOST:${NETCUP_DEPLOY_PATH%/}/"

@@ -52,6 +52,10 @@ See the [test strategy](docs/TEST_STRATEGY.md), [capability matrix](docs/CAPABIL
 
 For a portfolio demonstration with traces and screenshots retained on successful tests, run `npm run showcase` and then `npm run showcase:report`. Generated evidence remains untracked and must be reviewed before sharing.
 
+## Public portfolio site
+
+`npm run portfolio:build` creates a buildless static site in `dist/` and embeds the controlled showcase report. GitHub Pages is the primary public destination through `.github/workflows/pages.yml`. The same build can be mirrored to a public Netcup server with the opt-in workflow and Nginx configuration under `deploy/netcup`; see [operations](docs/OPERATIONS.md).
+
 ## Documentation and publishing automation
 
 ```bash

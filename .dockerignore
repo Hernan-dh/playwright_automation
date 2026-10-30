@@ -5,6 +5,8 @@
 node_modules
 test-results
 playwright-report
+portfolio-artifacts
+dist
 allure-results
 allure-report
 storage-state

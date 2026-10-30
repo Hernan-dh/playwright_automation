@@ -13,6 +13,8 @@
 - `playwright.auth.config.ts`: authentication setup and dependent project example.
 - `playwright.service.config.ts`: optional Azure Playwright Workspaces execution using Entra ID credentials.
 - `scripts`: dependency-free documentation, verification, and publishing automation.
+- `portfolio`: buildless public presentation site.
+- `deploy/netcup`: optional public Nginx mirror configuration.
 - `docs/TRACEABILITY.md`: automated case IDs mapped to risks, commands, environments, and evidence.
 - `docs/EVIDENCE.md`: honest status register for local, CI, interactive, and external runs.
 
@@ -27,3 +29,7 @@ Contract tests validate API responses against versioned JSON Schemas. Performanc
 `scripts/verify.py` is the single local and CI verification entry point. The pre-commit hook invokes it before Git accepts a commit. `scripts/publish.py` gathers a bounded change context, optionally requests Conventional Commit metadata from configured providers, verifies twice, and requires explicit confirmation before commit and push.
 
 See [ADR 0001](decisions/0001-repository-managed-documentation-and-publishing.md).
+
+## Public evidence publishing
+
+The controlled showcase produces traces, screenshots, and an HTML report without private credentials or production data. `scripts/build_portfolio_site.py` combines that report with the static `portfolio` source into the ignored `dist` directory. GitHub Pages is the authoritative public site. The optional Netcup workflow deploys the identical build to a public Nginx mirror, so hosting differences cannot change test evidence.

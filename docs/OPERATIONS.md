@@ -13,6 +13,18 @@ CI also runs `npm audit --audit-level=high` after the reproducible `npm ci` inst
 
 Generate reviewable portfolio evidence locally with `npm run showcase`. The dedicated run currently exercises 11 deterministic context, network, and browser-primitive scenarios and retains a trace and screenshot for every passing test under the ignored `portfolio-artifacts` directory.
 
+## Public portfolio publishing
+
+Build the complete static site locally with:
+
+```powershell
+npm run portfolio:build
+```
+
+The command reruns the controlled showcase and writes the public site plus HTML report to ignored `dist/`. `.github/workflows/pages.yml` publishes that build to GitHub Pages on `main` and on manual dispatch. Enable Pages with GitHub Actions as its source once for the repository.
+
+The opt-in `.github/workflows/netcup.yml` produces the same build and mirrors it over SSH only when `NETCUP_DEPLOY_ENABLED=true`. Server and repository configuration are documented in `deploy/netcup/README.md`. Netcup is a public mirror, not a CI dependency; a server outage never blocks testing or the primary Pages site.
+
 The `Jenkinsfile` is an optional portability reference for teams that use Jenkins. Its container preflight completed the smoke suite 2/2 in the pinned Playwright image. A Jenkins controller run is deliberately outside the portfolio acceptance criteria because GitHub Actions is the authoritative CI environment and already publishes the required reports and evidence.
 
 The verifier checks that the Playwright version in `package-lock.json` matches the Docker and Jenkins image tag. GitHub Actions builds that image and runs the deterministic network suite inside it. Local Docker validation requires a running Docker daemon:
