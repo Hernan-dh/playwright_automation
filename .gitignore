@@ -1,0 +1,18 @@
+node_modules/
+playwright-report/
+test-results/
+blob-report/
+allure-results/
+allure-report/
+coverage/
+.env
+.env.*
+!.env.example
+storage-state/
+__pycache__/
+*.pyc
+*.log
+*.webm
+*.zip
+# Legacy local export; never commit it.
+PlayWrightAutomation/

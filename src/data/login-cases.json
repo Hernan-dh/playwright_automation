@@ -1,0 +1,4 @@
+[
+  { "name": "locked user", "username": "locked_out_user", "password": "secret_sauce", "message": "locked out" },
+  { "name": "unknown user", "username": "unknown_user", "password": "wrong_password", "message": "Username and password do not match" }
+]

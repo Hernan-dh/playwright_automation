@@ -1,0 +1,62 @@
+name: Playwright QA
+on:
+  pull_request:
+  push:
+    branches: [main]
+  schedule:
+    - cron: '0 5 * * 1-5'
+  workflow_dispatch:
+jobs:
+  repository-verification:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.12' }
+      - uses: actions/setup-node@v4
+        with: { node-version: 20, cache: npm }
+      - run: npm ci
+      - run: npm audit --audit-level=high
+      - run: npx playwright install --with-deps chromium
+      - run: python scripts/verify.py
+  smoke:
+    needs: repository-verification
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 20, cache: npm }
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - run: npm run test:smoke
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with: { name: playwright-evidence, path: 'playwright-report/,test-results/', retention-days: 14 }
+  regression-shards:
+    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    strategy: { fail-fast: false, matrix: { shard: ['1/2', '2/2'] } }
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 20, cache: npm }
+      - run: npm ci
+      - run: npx playwright install --with-deps
+      - run: npx playwright test --shard=${{ matrix.shard }} --reporter=blob
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with: { name: blob-${{ strategy.job-index }}, path: blob-report, retention-days: 1 }
+  merge-reports:
+    if: always() && (github.event_name == 'schedule' || github.event_name == 'workflow_dispatch')
+    needs: regression-shards
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 20, cache: npm }
+      - run: npm ci
+      - uses: actions/download-artifact@v4
+        with: { pattern: blob-*, path: all-blob-reports, merge-multiple: true }
+      - run: npx playwright merge-reports --reporter=html ./all-blob-reports
+      - uses: actions/upload-artifact@v4
+        with: { name: merged-html-report, path: playwright-report, retention-days: 30 }
