@@ -33,3 +33,5 @@ See [ADR 0001](decisions/0001-repository-managed-documentation-and-publishing.md
 ## Public evidence publishing
 
 The controlled showcase produces traces, screenshots, and an HTML report without private credentials or production data. `scripts/build_portfolio_site.py` combines that report with the static `portfolio` source into the ignored `dist` directory. GitHub Pages is the authoritative public site. The optional Netcup workflow deploys the identical build to a public Nginx mirror, so hosting differences cannot change test evidence.
+
+The public QA site links back to the main professional portfolio, whose bilingual project card provides stable context and links to both this evidence site and its source repository. The repositories remain independently deployable and neither site is embedded in the other.
