@@ -32,11 +32,11 @@
 | Allure reporting | Scripts and reporter integration | Implemented |
 | Docker configuration and version alignment | Dockerfile and centralized verifier | Implemented |
 | Docker image build and execution | Local Docker run and GitHub Actions `container-validation` | Implemented; network 5/5 and cross-browser 6/6 passed in container |
-| Jenkins pipeline | Jenkinsfile | Configured; requires a Jenkins environment |
-| GitHub Actions, sharding, and report merge | `.github/workflows/playwright.yml` | Configured; runtime evidence provided by Actions |
+| Jenkins pipeline reference | `Jenkinsfile` | Optional portability example; not a portfolio acceptance requirement |
+| GitHub Actions, sharding, and report merge | `.github/workflows/playwright.yml` | Implemented and externally validated with published artifacts |
 | Azure Playwright cloud execution | `playwright.service.config.ts` and opt-in GitHub Actions job | Configured; requires workspace, OIDC credentials, and first cloud run |
-| Playwright planner, generator, healer, and test MCP | `.codex/agents`, `.codex/prompts`, `specs` | Initialized for Codex; live agent run pending |
-| Automated test traceability | `docs/TRACEABILITY.md`, `scripts/check_traceability.py` | Implemented; 40 executable case IDs verified |
+| Playwright planner, generator, healer, and test MCP | `.codex/agents`, `.codex/prompts`, `specs` | Implemented; live planner, generator, and healer evidence recorded |
+| Automated test traceability | `docs/TRACEABILITY.md`, `scripts/check_traceability.py` | Implemented; 47 executable case IDs verified |
 | Evidence governance | `docs/EVIDENCE.md`, CI artifacts, and versioned baselines | Implemented; external and interactive evidence explicitly tracked |
 | Portfolio trace showcase | `playwright.showcase.config.ts`, `npm run showcase` | Implemented; passing runs retain screenshots and traces |
 

@@ -31,4 +31,4 @@ This matrix is the authoritative map from automated case IDs to risk, executable
 
 ## External execution evidence
 
-Docker network, mobile, visual, and cross-browser runs are recorded in `docs/OPERATIONS.md`. GitHub Actions, Jenkins, Azure Workspaces, Inspector, Codegen, and live agent executions require their respective external or interactive environment; use `docs/EVIDENCE.md` to record them without overstating their status.
+Docker network, mobile, visual, and cross-browser runs are recorded in `docs/OPERATIONS.md`. GitHub Actions and live agent executions have durable evidence in `docs/EVIDENCE.md`. Jenkins is a portability reference, Azure is intentionally inactive, and Inspector and Codegen are optional interactive demonstrations; none is pending portfolio acceptance work.
