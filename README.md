@@ -48,7 +48,7 @@ On PowerShell systems that block `npx.ps1`, use `npx.cmd` or `node node_modules/
 
 When a test fails, Playwright stores a screenshot and video; the first retry also records `trace.zip`. Open it with `npx playwright show-trace test-results/.../trace.zip`. The HTML report consolidates steps, attachments, and retries. Generated results are not committed: CI uploads them as artifacts.
 
-See the [test strategy](docs/TEST_STRATEGY.md), [capability matrix](docs/CAPABILITY_MATRIX.md), and [contribution guide](CONTRIBUTING.md).
+See the [test strategy](docs/TEST_STRATEGY.md), [capability matrix](docs/CAPABILITY_MATRIX.md), [test traceability](docs/TRACEABILITY.md), [evidence register](docs/EVIDENCE.md), and [contribution guide](CONTRIBUTING.md).
 
 ## Documentation and publishing automation
 

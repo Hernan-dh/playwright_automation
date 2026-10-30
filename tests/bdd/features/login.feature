@@ -4,12 +4,12 @@ Feature: Authentication
   So that I can browse products
 
   @smoke
-  Scenario: Valid customer reaches inventory
+  Scenario: BDD-01 Valid customer reaches inventory
     Given the SauceDemo login page is open
     When I sign in with the standard demo user
     Then the product inventory is displayed
 
-  Scenario Outline: Invalid customers see a useful error
+  Scenario Outline: BDD-02 Invalid customers see a useful error
     Given the SauceDemo login page is open
     When I sign in with username "<username>" and password "<password>"
     Then the login error contains "<message>"

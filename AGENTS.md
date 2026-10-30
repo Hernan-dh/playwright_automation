@@ -6,6 +6,7 @@
 - Update `docs/ARCHITECTURE.md` when components, integrations, or execution flows change.
 - Update `docs/OPERATIONS.md` when verification, reporting, CI, or publishing changes.
 - Update `docs/CAPABILITY_MATRIX.md` only when executable evidence exists.
+- Add every new automated case ID to `docs/TRACEABILITY.md` in the same change.
 - Create an ADR when relevant alternatives exist and the decision is not evident from the code.
 - Never include credentials, private data, traces, session state, or local values in versioned files.
 

@@ -35,5 +35,7 @@
 | GitHub Actions, sharding, and report merge | `.github/workflows/playwright.yml` | Configured; runtime evidence provided by Actions |
 | Azure Playwright cloud execution | `playwright.service.config.ts` and opt-in GitHub Actions job | Configured; requires workspace, OIDC credentials, and first cloud run |
 | Playwright planner, generator, healer, and test MCP | `.codex/agents`, `.codex/prompts`, `specs` | Initialized for Codex; live agent run pending |
+| Automated test traceability | `docs/TRACEABILITY.md`, `scripts/check_traceability.py` | Implemented; 40 executable case IDs verified |
+| Evidence governance | `docs/EVIDENCE.md`, CI artifacts, and versioned baselines | Implemented; external and interactive evidence explicitly tracked |
 
 The repository keeps Playwright Test as the single primary runner. Cucumber provides a focused BDD example, while the Mocha guide explains migration without duplicating the suite.

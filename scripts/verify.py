@@ -4,7 +4,7 @@ import ast, json, re, shutil, subprocess, sys, tokenize
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-ESSENTIAL = ("README.md", "LICENSE", "AGENTS.md", "CHANGELOG.md", ".dockerignore", ".env.example", "package.json", "package-lock.json", "playwright.config.ts", "docs/ARCHITECTURE.md", "docs/OPERATIONS.md", "docs/CAPABILITY_MATRIX.md", "docs/decisions/README.md", "specs/README.md", "tests/seed.spec.ts", ".codex/agents/playwright_test_planner.toml", ".codex/agents/playwright_test_generator.toml", ".codex/agents/playwright_test_healer.toml")
+ESSENTIAL = ("README.md", "LICENSE", "AGENTS.md", "CHANGELOG.md", ".dockerignore", ".env.example", "package.json", "package-lock.json", "playwright.config.ts", "docs/ARCHITECTURE.md", "docs/OPERATIONS.md", "docs/CAPABILITY_MATRIX.md", "docs/TRACEABILITY.md", "docs/EVIDENCE.md", "docs/decisions/README.md", "specs/README.md", "tests/seed.spec.ts", ".codex/agents/playwright_test_planner.toml", ".codex/agents/playwright_test_generator.toml", ".codex/agents/playwright_test_healer.toml")
 PRIVATE_NAMES = {".env", "credentials.json", "secrets.json", "id_rsa", "id_ed25519", "state.json"}
 PRIVATE_SUFFIXES = {".key", ".pem", ".p12", ".pfx"}
 GENERATED = {"node_modules", "test-results", "playwright-report", "allure-results", "allure-report", "storage-state", "__pycache__"}
@@ -69,6 +69,7 @@ def main() -> int:
                 errors.append(f"{relative} must use {expected}")
     except (KeyError, OSError, json.JSONDecodeError) as error:
         errors.append(f"Could not validate Playwright container version: {error}")
+    run_check("test traceability", [sys.executable, "scripts/check_traceability.py"], errors)
     node = shutil.which("node")
     npm = shutil.which("npm")
     if not node or not npm: errors.append("Node.js and npm are required")

@@ -7,7 +7,7 @@ describe('Mocha interoperability example', function () {
   before(async () => { browser = await chromium.launch(); });
   after(async () => { await browser.close(); });
 
-  it('uses Playwright with Mocha hooks and assertions', async () => {
+  it('MOCHA-01 uses Playwright with Mocha hooks and assertions', async () => {
     const page = await browser.newPage();
     await page.route('https://portfolio.local/', route => route.fulfill({ contentType: 'text/html', body: '<h1>Mocha and Playwright</h1>' }));
     await page.goto('https://portfolio.local/');

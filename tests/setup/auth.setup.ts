@@ -1,7 +1,7 @@
 import { test as setup, expect } from '@playwright/test';
 import fs from 'node:fs/promises';
 
-setup('authenticate the standard demo user', async ({ page }) => {
+setup('SETUP-01 authenticate the standard demo user', async ({ page }) => {
   await fs.mkdir('storage-state', { recursive: true });
   await page.goto(process.env.UI_BASE_URL || 'https://www.saucedemo.com');
   await page.getByPlaceholder('Username').fill('standard_user');

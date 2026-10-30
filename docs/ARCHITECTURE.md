@@ -13,6 +13,8 @@
 - `playwright.auth.config.ts`: authentication setup and dependent project example.
 - `playwright.service.config.ts`: optional Azure Playwright Workspaces execution using Entra ID credentials.
 - `scripts`: dependency-free documentation, verification, and publishing automation.
+- `docs/TRACEABILITY.md`: automated case IDs mapped to risks, commands, environments, and evidence.
+- `docs/EVIDENCE.md`: honest status register for local, CI, interactive, and external runs.
 
 ## Test flow
 
