@@ -8,12 +8,12 @@ on:
   workflow_dispatch: {}
 jobs:
   repository-verification:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
         with: { python-version: '3.12' }
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v7
         with: { node-version: 20, cache: npm }
       - run: npm ci
       - run: npm audit --audit-level=high
@@ -21,24 +21,29 @@ jobs:
       - run: python scripts/verify.py
   smoke:
     needs: repository-verification
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
         with: { node-version: 20, cache: npm }
       - run: npm ci
       - run: npx playwright install --with-deps chromium
       - run: npm run test:smoke
       - uses: actions/upload-artifact@v4
         if: always()
-        with: { name: playwright-evidence, path: 'playwright-report/,test-results/', retention-days: 14 }
+        with:
+          name: playwright-evidence
+          path: |
+            playwright-report/
+            test-results/
+          retention-days: 14
   portfolio-showcase:
     if: github.event_name == 'workflow_dispatch'
     needs: repository-verification
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
         with: { node-version: 20, cache: npm }
       - run: npm ci
       - run: npx playwright install --with-deps chromium
@@ -48,9 +53,9 @@ jobs:
         with: { name: portfolio-showcase, path: portfolio-artifacts, retention-days: 14 }
   container-validation:
     needs: repository-verification
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - run: docker build --tag playwright-qa-portfolio:test .
       - run: docker run --rm playwright-qa-portfolio:test npm run test:network
       - run: docker run --rm playwright-qa-portfolio:test npm run test:cross-browser
@@ -61,10 +66,10 @@ jobs:
     permissions:
       contents: read
       id-token: write
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
         with: { node-version: 20, cache: npm }
       - run: npm ci
       - uses: azure/login@v2
@@ -78,14 +83,19 @@ jobs:
         run: npm run test:azure
       - uses: actions/upload-artifact@v4
         if: always()
-        with: { name: azure-playwright-report, path: 'playwright-report/,test-results/', retention-days: 30 }
+        with:
+          name: azure-playwright-report
+          path: |
+            playwright-report/
+            test-results/
+          retention-days: 30
   regression-shards:
     if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     strategy: { fail-fast: false, matrix: { shard: ['1/2', '2/2'] } }
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
         with: { node-version: 20, cache: npm }
       - run: npm ci
       - run: npx playwright install --with-deps
@@ -99,10 +109,10 @@ jobs:
   merge-reports:
     if: always() && (github.event_name == 'schedule' || github.event_name == 'workflow_dispatch')
     needs: regression-shards
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
         with: { node-version: 20, cache: npm }
       - run: npm ci
       - uses: actions/download-artifact@v4
