@@ -10,7 +10,7 @@ Generated reports are CI artifacts and are not committed. Record durable links, 
 | Docker mobile | Complete | `docs/OPERATIONS.md`: 2/2 |
 | Docker Linux visual | Complete | Versioned Linux baseline and 1/1 comparison |
 | Local trace showcase | Complete | 11/11 passing tests with retained traces and screenshots |
-| GitHub Actions smoke | Published run failed before job creation | Run `41139766484` on `d7055c4`; rerun after the local workflow trigger fix is committed and pushed |
+| GitHub Actions smoke | Published run failed during workflow parsing | Run `41141233095` on `c6ab028`; `actionlint` identified the inline artifact-name mapping and the validated local fix awaits publication |
 | GitHub Actions shards and merge | Pending manual/scheduled run | Workflow URL and merged report artifact |
 | Jenkins | Local container preflight complete; controller run pending | Image `8c9bd267c762`; smoke 2/2. A Jenkins build URL and archived artifacts still require a controller |
 | Azure Playwright Workspaces | Intentionally inactive | Only record if a workspace is deliberately enabled |
