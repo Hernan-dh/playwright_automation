@@ -11,6 +11,10 @@ The verifier checks Git whitespace, required documentation, private/generated fi
 
 CI also runs `npm audit --audit-level=high` after the reproducible `npm ci` install. Review lower-severity findings manually instead of applying unreviewed forced upgrades.
 
+Generate reviewable portfolio evidence locally with `npm run showcase`. The dedicated run currently exercises 11 deterministic context, network, and browser-primitive scenarios and retains a trace and screenshot for every passing test under the ignored `portfolio-artifacts` directory.
+
+The Jenkins container preflight builds the repository Dockerfile and executes `npm run test:smoke` in the same pinned Playwright image used by the pipeline. This validates installation and browser execution, but it is not a substitute for a controller build URL, Jenkins console log, JUnit publication, and archived artifacts.
+
 The verifier checks that the Playwright version in `package-lock.json` matches the Docker and Jenkins image tag. GitHub Actions builds that image and runs the deterministic network suite inside it. Local Docker validation requires a running Docker daemon:
 
 `.dockerignore` keeps dependencies, Git metadata, local credentials, reports, traces, and state out of the build context.

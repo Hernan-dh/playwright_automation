@@ -13,6 +13,7 @@
 | Browser storage-state reuse | `tests/auth/session.spec.ts` | Implemented |
 | Project dependencies and authentication setup | `playwright.auth.config.ts`, `tests/setup` | Implemented |
 | Network routing, response mutation, and abort | `tests/network/routes.spec.ts` | Implemented |
+| Geolocation, permissions, offline mode, and virtual time | `tests/context/browser-context.spec.ts` | Implemented |
 | Fixtures, JSON, and data-driven parameterization | `src/fixtures`, `src/data` | Implemented |
 | Global setup and teardown | `src/global-setup.ts`, `src/global-teardown.ts` | Implemented |
 | Screenshots, videos, traces, Inspector, and codegen | Configuration and `docs/DEBUGGING.md` | Implemented |
@@ -37,5 +38,6 @@
 | Playwright planner, generator, healer, and test MCP | `.codex/agents`, `.codex/prompts`, `specs` | Initialized for Codex; live agent run pending |
 | Automated test traceability | `docs/TRACEABILITY.md`, `scripts/check_traceability.py` | Implemented; 40 executable case IDs verified |
 | Evidence governance | `docs/EVIDENCE.md`, CI artifacts, and versioned baselines | Implemented; external and interactive evidence explicitly tracked |
+| Portfolio trace showcase | `playwright.showcase.config.ts`, `npm run showcase` | Implemented; passing runs retain screenshots and traces |
 
 The repository keeps Playwright Test as the single primary runner. Cucumber provides a focused BDD example, while the Mocha guide explains migration without duplicating the suite.

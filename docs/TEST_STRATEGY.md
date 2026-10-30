@@ -12,6 +12,8 @@ Reduce regression risk across authentication, catalog, cart, and checkout by app
 | AUTH-03..05 | storage state, data-driven login, and setup dependency | access / efficiency | P1 | UI, state artifact |
 | CART-01 | add a product | revenue | P0 | UI E2E |
 | CHECK-01/02 | purchase / required fields | revenue | P0/P1 | UI E2E |
+| CART-02 | remove a product before checkout | revenue / recovery | P1 | UI E2E |
+| CHECK-03..05 | field validation, overview integrity, and cancellation | revenue / data integrity | P1 | UI E2E and trace |
 | API-01/02 | contract / authentication | integration | P1 | request/response |
 | API-03/04 | resource lifecycle and API-to-UI token injection | integration / cleanup | P1 | request/response, UI |
 | NET-01..03 | mock, request mutation, and failure | resilience | P1/P2 | network trace |
@@ -24,6 +26,8 @@ Reduce regression risk across authentication, catalog, cart, and checkout by app
 | API-05 | JSON Schema conformance | integration drift | P1 | AJV validation errors |
 | MOBILE-01/02 | mobile navigation and horizontal overflow | responsive usability | P1 | Pixel 5 project |
 | COMPAT-01/02 | forms and storage across browser engines | compatibility | P1 | Chromium, Firefox, WebKit matrix |
+| CTX-01/02 | geolocation permission and offline behavior | environment resilience / privacy | P1 | context state and UI assertion |
+| TIME-01 | deterministic timer behavior | reliability / execution time | P1 | virtual-clock assertion |
 
 ## Entry and exit criteria
 

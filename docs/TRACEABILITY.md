@@ -5,6 +5,7 @@ This matrix is the authoritative map from automated case IDs to risk, executable
 | IDs | Coverage and risk | Source | Primary command | Reference environment | Evidence |
 |---|---|---|---|---|---|
 | AUTH-01, AUTH-02, CART-01, CHECK-01, CHECK-02 | Authentication, cart, and revenue-critical checkout | `tests/e2e/checkout.spec.ts` | `npm run test:smoke` | Chromium + SauceDemo | HTML report; failure trace/video |
+| CART-02, CHECK-03, CHECK-04, CHECK-05 | Cart removal, field validation, overview integrity, and safe cancellation | `tests/e2e/checkout-coverage.spec.ts` | `npx playwright test tests/e2e/checkout-coverage.spec.ts --project=chromium` | Chromium + SauceDemo | HTML report; failure trace/video |
 | AUTH-03 | Reusable authenticated browser state | `tests/auth/session.spec.ts` | `npm run test:session` | Chromium + SauceDemo | State written only to test output |
 | AUTH-04 | Data-driven invalid authentication | `tests/e2e/data-driven-login.spec.ts` | `npm test -- --grep AUTH-04` | Chromium + SauceDemo | Parameterized report entries |
 | AUTH-05, SETUP-01 | Setup-project dependency and preauthenticated execution | `tests/setup`, `tests/auth/preauthenticated.spec.ts` | `npm run test:project-dependencies` | Chromium + SauceDemo | Setup and dependent-project report |
@@ -13,6 +14,7 @@ This matrix is the authoritative map from automated case IDs to risk, executable
 | API-04 | API token injection into browser storage | `tests/api/lifecycle.spec.ts` | `npm run test:session` | DummyJSON + controlled UI | API response and UI assertion |
 | API-05 | Formal JSON Schema validation | `tests/api/schema.spec.ts` | `npm run test:contract` | DummyJSON | AJV error details on drift |
 | NET-01, NET-02, NET-03, NET-04, NET-05 | Mock, request mutation, failure, response mutation, and abort | `tests/network/routes.spec.ts` | `npm run test:network` | Controlled browser routes | Network timeline and assertions |
+| CTX-01, CTX-02, TIME-01 | Geolocation permission, offline recovery, and deterministic time | `tests/context/browser-context.spec.ts` | `npm run test:context` | Controlled browser context | Context state, virtual time, trace, and assertions |
 | UI-01 | Semantic locators and native controls | `tests/ui/interactions.spec.ts` | `npm test -- --grep UI-01` | Public practice form | UI assertions |
 | UI-02, UI-03 | Autocomplete and date input | `tests/ui/dynamic-controls.spec.ts` | `npm test -- --grep UI-` | Controlled DOM | Deterministic UI assertions |
 | UX-01, UX-02, UX-03 | Dialog, iframe, and new tab | `tests/ui/browser-primitives.spec.ts` | `npm test -- --grep UX-` | Controlled DOM | Browser-event assertions |

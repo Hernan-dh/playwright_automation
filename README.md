@@ -50,6 +50,8 @@ When a test fails, Playwright stores a screenshot and video; the first retry als
 
 See the [test strategy](docs/TEST_STRATEGY.md), [capability matrix](docs/CAPABILITY_MATRIX.md), [test traceability](docs/TRACEABILITY.md), [evidence register](docs/EVIDENCE.md), and [contribution guide](CONTRIBUTING.md).
 
+For a portfolio demonstration with traces and screenshots retained on successful tests, run `npm run showcase` and then `npm run showcase:report`. Generated evidence remains untracked and must be reviewed before sharing.
+
 ## Documentation and publishing automation
 
 ```bash
