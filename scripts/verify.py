@@ -1,15 +1,15 @@
 """Run centralized public-repository checks locally, in hooks, and in CI."""
 from __future__ import annotations
-import ast, re, shutil, subprocess, sys, tokenize
+import ast, json, re, shutil, subprocess, sys, tokenize
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-ESSENTIAL = ("README.md", "LICENSE", "AGENTS.md", "CHANGELOG.md", ".env.example", "package.json", "package-lock.json", "playwright.config.ts", "docs/ARCHITECTURE.md", "docs/OPERATIONS.md", "docs/CAPABILITY_MATRIX.md", "docs/decisions/README.md")
+ESSENTIAL = ("README.md", "LICENSE", "AGENTS.md", "CHANGELOG.md", ".dockerignore", ".env.example", "package.json", "package-lock.json", "playwright.config.ts", "docs/ARCHITECTURE.md", "docs/OPERATIONS.md", "docs/CAPABILITY_MATRIX.md", "docs/decisions/README.md", "specs/README.md", "tests/seed.spec.ts", ".codex/agents/playwright_test_planner.toml", ".codex/agents/playwright_test_generator.toml", ".codex/agents/playwright_test_healer.toml")
 PRIVATE_NAMES = {".env", "credentials.json", "secrets.json", "id_rsa", "id_ed25519", "state.json"}
 PRIVATE_SUFFIXES = {".key", ".pem", ".p12", ".pfx"}
 GENERATED = {"node_modules", "test-results", "playwright-report", "allure-results", "allure-report", "storage-state", "__pycache__"}
 GENERATED_SUFFIXES = {".log", ".webm", ".zip"}
-TEXT_SUFFIXES = {".js", ".json", ".md", ".py", ".sh", ".ts", ".yml", ".yaml", ".feature"}
+TEXT_SUFFIXES = {".js", ".json", ".md", ".py", ".sh", ".toml", ".ts", ".yml", ".yaml", ".feature"}
 SECRET_PATTERNS = (
     re.compile(r"AIza[0-9A-Za-z_-]{35}"), re.compile(r"\b(?:gsk_|github_pat_|sk-or-v1-)[A-Za-z0-9_-]{20,}"),
     re.compile(r"-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----"), re.compile(r"\bgh[opurs]_[A-Za-z0-9_]{30,}"),
@@ -59,12 +59,22 @@ def main() -> int:
             try:
                 with tokenize.open(path) as source: ast.parse(source.read(), filename=str(path))
             except (SyntaxError, UnicodeError) as error: errors.append(f"Invalid Python in {path.relative_to(ROOT)}: {error}")
+    print("[check] Playwright container version alignment")
+    try:
+        lock = json.loads((ROOT / "package-lock.json").read_text(encoding="utf-8"))
+        version = lock["packages"]["node_modules/@playwright/test"]["version"]
+        expected = f"mcr.microsoft.com/playwright:v{version}-noble"
+        for relative in ("Dockerfile", "Jenkinsfile"):
+            if expected not in (ROOT / relative).read_text(encoding="utf-8"):
+                errors.append(f"{relative} must use {expected}")
+    except (KeyError, OSError, json.JSONDecodeError) as error:
+        errors.append(f"Could not validate Playwright container version: {error}")
     node = shutil.which("node")
     npm = shutil.which("npm")
     if not node or not npm: errors.append("Node.js and npm are required")
     else:
         run_check("TypeScript", [npm, "run", "lint"], errors)
-        run_check("deterministic Chromium tests", [node, "node_modules/@playwright/test/cli.js", "test", "--project=chromium", "--grep=@network|UX-|FILE-|UI-02|UI-03|A11Y-|API-03"], errors)
+        run_check("deterministic Chromium tests", [node, "node_modules/@playwright/test/cli.js", "test", "--project=chromium", "--grep=@network|UX-|FILE-|UI-02|UI-03|A11Y-|API-03|PERF-|SEC-"], errors)
     if errors:
         print("\nVerification failed:")
         for error in errors: print(f"- {error}")

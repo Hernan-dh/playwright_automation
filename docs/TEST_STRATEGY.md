@@ -19,6 +19,9 @@ Reduce regression risk across authentication, catalog, cart, and checkout by app
 | UX-01..03 | frame, dialog, and tab | compatibility | P2 | report |
 | VIS-01 | catalog | visual regression | P2 | snapshot |
 | A11Y-01 | serious and critical accessibility rules | usability / compliance | P1 | Axe results |
+| PERF-01 | navigation and API response budgets | performance regression | P2 | Performance API metrics |
+| SEC-01 | defensive response headers | security hardening | P1 | HTTP response headers |
+| API-05 | JSON Schema conformance | integration drift | P1 | AJV validation errors |
 
 ## Entry and exit criteria
 

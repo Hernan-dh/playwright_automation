@@ -11,6 +11,17 @@ The verifier checks Git whitespace, required documentation, private/generated fi
 
 CI also runs `npm audit --audit-level=high` after the reproducible `npm ci` install. Review lower-severity findings manually instead of applying unreviewed forced upgrades.
 
+The verifier checks that the Playwright version in `package-lock.json` matches the Docker and Jenkins image tag. GitHub Actions builds that image and runs the deterministic network suite inside it. Local Docker validation requires a running Docker daemon:
+
+`.dockerignore` keeps dependencies, Git metadata, local credentials, reports, traces, and state out of the build context.
+
+```powershell
+docker build --tag playwright-qa-portfolio:test .
+docker run --rm playwright-qa-portfolio:test npm run test:network
+```
+
+The local acceptance run on 2026-10-30 built `playwright-qa-portfolio:test` with Docker Engine 29.9.2 and completed the containerized network suite with 5/5 passing tests.
+
 Enable the repository-managed pre-commit hook for this clone:
 
 ```powershell

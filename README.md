@@ -10,6 +10,7 @@ A public test automation repository demonstrating modern QA practices with Playw
 - Frames, dialogs, tabs, file upload/download, visual regression, and mobile emulation.
 - Cucumber BDD, HTML/JUnit/JSON/Allure reports, traces, screenshots, and videos.
 - Local execution, Docker, and GitHub Actions for pull-request smoke tests and scheduled regression.
+- Playwright planner, generator, and healer agents configured for Codex through the test MCP server.
 
 ## Quick start
 
@@ -31,6 +32,9 @@ On PowerShell systems that block `npx.ps1`, use `npx.cmd` or `node node_modules/
 | `npm run test:api` | API contracts and authentication |
 | `npm run test:network` | Isolated and deterministic interception tests |
 | `npm run test:accessibility` | Axe accessibility scan |
+| `npm run test:contract` | JSON Schema API validation |
+| `npm run test:performance` | Navigation and API performance budgets |
+| `npm run test:security` | Defensive security-header checks on an authorized target |
 | `npm run test:session` | Browser state and API-token session tests |
 | `npm run test:project-dependencies` | Authentication setup project followed by authenticated tests |
 | `npm run test:visual` | Comparison against the approved baseline |

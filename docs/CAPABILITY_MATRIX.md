@@ -7,6 +7,7 @@
 | Tabs, dialogs, and frames | `tests/ui/browser-primitives.spec.ts` | Implemented |
 | E-commerce E2E | `tests/e2e/checkout.spec.ts` | Implemented |
 | API authentication and contract testing | `tests/api/*.spec.ts` | Implemented |
+| Formal JSON Schema validation | `src/schemas`, `tests/api/schema.spec.ts` | Implemented |
 | API resource lifecycle and teardown | `tests/api/lifecycle.spec.ts` | Implemented |
 | API token injection into the UI | `tests/api/lifecycle.spec.ts` | Implemented |
 | Browser storage-state reuse | `tests/auth/session.spec.ts` | Implemented |
@@ -19,11 +20,17 @@
 | Upload, download, and ExcelJS | `tests/files` | Implemented |
 | Autocomplete and date controls | `tests/ui/dynamic-controls.spec.ts` | Implemented |
 | Automated accessibility checks | `tests/accessibility` | Implemented |
+| Performance budgets | `tests/performance` | Implemented |
+| Defensive security checks on authorized targets | `tests/security` | Implemented |
 | Page Object Model | Maintainable TypeScript Page Objects | Implemented |
 | Cucumber BDD | `tests/bdd` | Implemented |
 | Playwright with Mocha | `tests/mocha`, `docs/MOCHA_MIGRATION.md` | Implemented |
 | Allure reporting | Scripts and reporter integration | Implemented |
-| Docker, Jenkins, GitHub Actions, sharding, and report merge | Dockerfile, Jenkinsfile, and workflow | Implemented |
-| AI agents, MCP, and test healing | `docs/AI_GOVERNANCE.md` | Documented with controls |
+| Docker configuration and version alignment | Dockerfile and centralized verifier | Implemented |
+| Docker image build and execution | Local Docker run and GitHub Actions `container-validation` | Implemented; network suite 5/5 passed in container |
+| Jenkins pipeline | Jenkinsfile | Configured; requires a Jenkins environment |
+| GitHub Actions, sharding, and report merge | `.github/workflows/playwright.yml` | Configured; runtime evidence provided by Actions |
+| Azure Playwright cloud execution | Not configured | Requires an Azure subscription and credentials |
+| Playwright planner, generator, healer, and test MCP | `.codex/agents`, `.codex/prompts`, `specs` | Initialized for Codex; live agent run pending |
 
 The repository keeps Playwright Test as the single primary runner. Cucumber provides a focused BDD example, while the Mocha guide explains migration without duplicating the suite.

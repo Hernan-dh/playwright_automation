@@ -1,0 +1,14 @@
+.git
+.env
+.codex
+.githooks
+node_modules
+test-results
+playwright-report
+allure-results
+allure-report
+storage-state
+PlayWrightAutomation
+*.log
+*.webm
+*.zip

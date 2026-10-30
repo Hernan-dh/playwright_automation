@@ -6,6 +6,9 @@
 - `src/fixtures`: typed Playwright fixtures.
 - `src/data`: versioned public test datasets.
 - `tests`: E2E, API, network, accessibility, visual, file, BDD, and Mocha suites.
+- `src/schemas`: versioned API contracts compiled by AJV.
+- `specs`: human-reviewed plans used by Playwright agents.
+- `.codex/agents` and `.codex/prompts`: planner, generator, and healer definitions backed by the Playwright test MCP server.
 - `playwright.config.ts`: primary multi-browser execution model.
 - `playwright.auth.config.ts`: authentication setup and dependent project example.
 - `scripts`: dependency-free documentation, verification, and publishing automation.
@@ -13,6 +16,8 @@
 ## Test flow
 
 Playwright Test loads global setup, selects a browser project, creates isolated browser contexts, and records failure evidence according to configuration. External tests target public demo services; deterministic network, file, and browser-primitive tests use local routes or generated data. Reports and state are generated artifacts and are never committed.
+
+Contract tests validate API responses against versioned JSON Schemas. Performance and defensive-security tests run only against ephemeral loopback servers owned by the test process, keeping thresholds deterministic and security checks explicitly authorized.
 
 ## Publication boundary
 
