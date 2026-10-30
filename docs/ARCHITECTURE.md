@@ -11,6 +11,7 @@
 - `.codex/agents` and `.codex/prompts`: planner, generator, and healer definitions backed by the Playwright test MCP server.
 - `playwright.config.ts`: primary multi-browser execution model.
 - `playwright.auth.config.ts`: authentication setup and dependent project example.
+- `playwright.service.config.ts`: optional Azure Playwright Workspaces execution using Entra ID credentials.
 - `scripts`: dependency-free documentation, verification, and publishing automation.
 
 ## Test flow

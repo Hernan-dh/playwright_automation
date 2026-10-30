@@ -33,7 +33,7 @@
 | Docker image build and execution | Local Docker run and GitHub Actions `container-validation` | Implemented; network 5/5 and cross-browser 6/6 passed in container |
 | Jenkins pipeline | Jenkinsfile | Configured; requires a Jenkins environment |
 | GitHub Actions, sharding, and report merge | `.github/workflows/playwright.yml` | Configured; runtime evidence provided by Actions |
-| Azure Playwright cloud execution | Not configured | Requires an Azure subscription and credentials |
+| Azure Playwright cloud execution | `playwright.service.config.ts` and opt-in GitHub Actions job | Configured; requires workspace, OIDC credentials, and first cloud run |
 | Playwright planner, generator, healer, and test MCP | `.codex/agents`, `.codex/prompts`, `specs` | Initialized for Codex; live agent run pending |
 
 The repository keeps Playwright Test as the single primary runner. Cucumber provides a focused BDD example, while the Mocha guide explains migration without duplicating the suite.

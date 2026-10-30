@@ -22,6 +22,19 @@ docker run --rm playwright-qa-portfolio:test npm run test:network
 
 The local acceptance run on 2026-10-30 built `playwright-qa-portfolio:test` with Docker Engine 29.9.2 and completed the containerized network suite with 5/5 passing tests and the Chromium/Firefox/WebKit compatibility matrix with 6/6 passing tests. The dedicated Pixel 5 suite passed 2/2 locally. Firefox test processes did not terminate reliably on the Windows host, while the same cases completed in Linux Docker; container/CI is therefore the reference Firefox environment.
 
+## Azure Playwright Workspaces
+
+The optional `azure-playwright` job is disabled unless the repository variable `AZURE_PLAYWRIGHT_ENABLED` equals `true`. Configure GitHub OIDC secrets `AZURE_CLIENT_ID`, `AZURE_TENANT_ID`, and `AZURE_SUBSCRIPTION_ID`, plus the regional `PLAYWRIGHT_SERVICE_URL` secret. The workflow uses Entra ID through `DefaultAzureCredential`; no access token is stored in the repository.
+
+Run the same cloud matrix locally after `az login` and setting the service URL:
+
+```powershell
+$env:PLAYWRIGHT_SERVICE_URL = "wss://region.api.playwright.microsoft.com/..."
+npm run test:azure
+```
+
+See the [official Playwright Workspaces CI quickstart](https://learn.microsoft.com/en-us/azure/app-testing/playwright-workspaces/quickstart-automate-end-to-end-testing).
+
 Enable the repository-managed pre-commit hook for this clone:
 
 ```powershell

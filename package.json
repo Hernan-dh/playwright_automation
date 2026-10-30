@@ -17,6 +17,7 @@
     "test:visual": "playwright test --grep @visual --project=chromium",
     "test:mobile": "playwright test tests/mobile --project=\"Mobile Chrome\"",
     "test:cross-browser": "playwright test tests/cross-browser --project=chromium --project=firefox --project=webkit",
+    "test:azure": "playwright test tests/cross-browser -c playwright.service.config.ts --workers=20",
     "test:allure": "playwright test --reporter=line,allure-playwright",
     "report": "playwright show-report",
     "report:allure": "allure generate allure-results --clean -o allure-report && allure open allure-report",
@@ -32,6 +33,8 @@
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.11.0",
+    "@azure/identity": "^4.14.1",
+    "@azure/playwright": "^1.1.6",
     "@cucumber/cucumber": "^13.3.0",
     "@playwright/test": "1.64.1",
     "ajv": "^8.17.1",

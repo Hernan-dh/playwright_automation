@@ -39,6 +39,8 @@ On PowerShell systems that block `npx.ps1`, use `npx.cmd` or `node node_modules/
 | `npm run test:project-dependencies` | Authentication setup project followed by authenticated tests |
 | `npm run test:visual` | Comparison against the approved baseline |
 | `npm run test:mobile` | Pixel 5 emulation |
+| `npm run test:cross-browser` | Chromium, Firefox, and WebKit compatibility matrix |
+| `npm run test:azure` | Optional cross-browser execution in Azure Playwright Workspaces |
 | `npm run bdd` | Cucumber scenarios |
 | `npm run mocha` | Mocha interoperability example |
 
