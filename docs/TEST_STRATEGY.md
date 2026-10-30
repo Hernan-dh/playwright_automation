@@ -22,6 +22,8 @@ Reduce regression risk across authentication, catalog, cart, and checkout by app
 | PERF-01 | navigation and API response budgets | performance regression | P2 | Performance API metrics |
 | SEC-01 | defensive response headers | security hardening | P1 | HTTP response headers |
 | API-05 | JSON Schema conformance | integration drift | P1 | AJV validation errors |
+| MOBILE-01/02 | mobile navigation and horizontal overflow | responsive usability | P1 | Pixel 5 project |
+| COMPAT-01/02 | forms and storage across browser engines | compatibility | P1 | Chromium, Firefox, WebKit matrix |
 
 ## Entry and exit criteria
 

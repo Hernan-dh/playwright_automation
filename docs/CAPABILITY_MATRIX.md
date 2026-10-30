@@ -16,7 +16,10 @@
 | Fixtures, JSON, and data-driven parameterization | `src/fixtures`, `src/data` | Implemented |
 | Global setup and teardown | `src/global-setup.ts`, `src/global-teardown.ts` | Implemented |
 | Screenshots, videos, traces, Inspector, and codegen | Configuration and `docs/DEBUGGING.md` | Implemented |
-| Visual, mobile, retries, parallelism, and tags | Configuration and `tests/visual` | Implemented |
+| Desktop Chromium visual regression | `tests/visual` | Implemented with a reviewed baseline |
+| Responsive mobile behavior | `tests/mobile` | Implemented; Pixel 5 suite 2/2 passed |
+| Chromium, Firefox, and WebKit compatibility | `tests/cross-browser` | Implemented; container suite 6/6 passed |
+| Retries, parallelism, and tags | Playwright configuration and tagged suites | Implemented |
 | Upload, download, and ExcelJS | `tests/files` | Implemented |
 | Autocomplete and date controls | `tests/ui/dynamic-controls.spec.ts` | Implemented |
 | Automated accessibility checks | `tests/accessibility` | Implemented |
@@ -27,7 +30,7 @@
 | Playwright with Mocha | `tests/mocha`, `docs/MOCHA_MIGRATION.md` | Implemented |
 | Allure reporting | Scripts and reporter integration | Implemented |
 | Docker configuration and version alignment | Dockerfile and centralized verifier | Implemented |
-| Docker image build and execution | Local Docker run and GitHub Actions `container-validation` | Implemented; network suite 5/5 passed in container |
+| Docker image build and execution | Local Docker run and GitHub Actions `container-validation` | Implemented; network 5/5 and cross-browser 6/6 passed in container |
 | Jenkins pipeline | Jenkinsfile | Configured; requires a Jenkins environment |
 | GitHub Actions, sharding, and report merge | `.github/workflows/playwright.yml` | Configured; runtime evidence provided by Actions |
 | Azure Playwright cloud execution | Not configured | Requires an Azure subscription and credentials |

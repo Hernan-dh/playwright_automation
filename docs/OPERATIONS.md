@@ -20,7 +20,7 @@ docker build --tag playwright-qa-portfolio:test .
 docker run --rm playwright-qa-portfolio:test npm run test:network
 ```
 
-The local acceptance run on 2026-10-30 built `playwright-qa-portfolio:test` with Docker Engine 29.9.2 and completed the containerized network suite with 5/5 passing tests.
+The local acceptance run on 2026-10-30 built `playwright-qa-portfolio:test` with Docker Engine 29.9.2 and completed the containerized network suite with 5/5 passing tests and the Chromium/Firefox/WebKit compatibility matrix with 6/6 passing tests. The dedicated Pixel 5 suite passed 2/2 locally. Firefox test processes did not terminate reliably on the Windows host, while the same cases completed in Linux Docker; container/CI is therefore the reference Firefox environment.
 
 Enable the repository-managed pre-commit hook for this clone:
 
