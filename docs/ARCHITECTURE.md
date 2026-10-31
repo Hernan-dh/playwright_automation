@@ -34,7 +34,7 @@ See [ADR 0001](decisions/0001-repository-managed-documentation-and-publishing.md
 
 The controlled showcase produces traces, screenshots, and an HTML report without private credentials or production data. `scripts/build_portfolio_site.py` combines that report with the static `portfolio` source into the ignored `dist` directory. GitHub Pages is the authoritative public site. The optional Netcup workflow deploys the identical build to a public Nginx mirror, so hosting differences cannot change test evidence.
 
-The public QA site links back to the main professional portfolio's independently deployed GitHub Pages site, whose bilingual project card provides stable context and links to both this evidence site and its source repository. The repositories remain independently deployable and neither site is embedded in the other. A Netcup domain may mirror either site later without becoming a navigation dependency.
+The public QA site links back to the main professional portfolio's independently deployed GitHub Pages site. Its interface is bilingual: English is the fallback, Spanish is selected on a Spanish-language browser, and visitors can override the choice with the persistent language selector. The repositories remain independently deployable and neither site is embedded in the other. A Netcup domain may mirror either site later without becoming a navigation dependency.
 
 ## Public showcase runner
 
