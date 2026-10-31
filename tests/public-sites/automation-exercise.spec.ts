@@ -1,5 +1,11 @@
 import { expect, test } from '@playwright/test';
 
+async function acceptConsentWhenPresented(page: import('@playwright/test').Page) {
+  const consent = page.getByRole('button', { name: 'Consent', exact: true });
+  await consent.waitFor({ state: 'visible', timeout: 3_000 }).catch(() => {});
+  if (await consent.isVisible()) await consent.click();
+}
+
 test('PUBLIC-EXERCISE-01 exposes its published automation cases', async ({ page }) => {
   await page.goto('https://automationexercise.com/test_cases');
   await expect(page.getByText('Below is the list of test Cases for you to practice the Automation.')).toBeVisible();
@@ -8,6 +14,7 @@ test('PUBLIC-EXERCISE-01 exposes its published automation cases', async ({ page 
 
 test('PUBLIC-EXERCISE-02 searches the public product catalog', async ({ page }) => {
   await page.goto('https://automationexercise.com/products');
+  await acceptConsentWhenPresented(page);
   await page.locator('#search_product').fill('Blue Top');
   await page.locator('#submit_search').click();
   await expect(page.getByText('Searched Products', { exact: false })).toBeVisible();
