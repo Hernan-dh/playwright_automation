@@ -15,13 +15,15 @@ const fullTimeoutMs = Number(process.env.RUNNER_FULL_TIMEOUT_MS || 600_000);
 const retentionMs = Number(process.env.RUNNER_RETENTION_MS || 86_400_000);
 const maxRuns = Number(process.env.RUNNER_MAX_RUNS || 20);
 const rateWindowMs = 3_600_000;
-const maxRequestsPerWindow = 10;
+const maxRequestsPerWindow = 14;
 const sites = Object.freeze({
   saucedemo: { label: 'SauceDemo', targetUrl: 'https://www.saucedemo.com/', quickTests: 2, fullTests: 8 },
   'the-internet': { label: 'The Internet', targetUrl: 'https://the-internet.herokuapp.com/', quickTests: 2, fullTests: 8 },
   'test-pages': { label: 'Test Pages', targetUrl: 'https://testpages.eviltester.com/', quickTests: 2, fullTests: 8 },
   'expand-testing': { label: 'Expand Testing', targetUrl: 'https://practice.expandtesting.com/', quickTests: 2, fullTests: 8 },
   'automation-exercise': { label: 'Automation Exercise', targetUrl: 'https://automationexercise.com/', quickTests: 2, fullTests: 8 },
+  'ai-operations-desk': { label: 'AI Operations Desk', targetUrl: 'https://operations-hdh.duckdns.org/', quickTests: 2, fullTests: 8 },
+  ticketing: { label: 'Ticketing', targetUrl: 'https://ticketing-hdh.duckdns.org/', quickTests: 2, fullTests: 8 },
 });
 const rateByIp = new Map();
 const latestBySelection = new Map();

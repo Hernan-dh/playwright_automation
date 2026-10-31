@@ -1,6 +1,6 @@
 # Public Netcup mirror
 
-Netcup is an optional public mirror of the same static `dist` directory deployed to GitHub Pages. It also runs five fixed public-site suites behind a rate-limited API. The runner has no secrets, accepts only an allowlisted site identifier, and exposes controlled reports.
+Netcup is an optional public mirror of the same static `dist` directory deployed to GitHub Pages. It also runs seven fixed public-site suites behind a rate-limited API. The runner has no secrets, accepts only an allowlisted site identifier, and exposes controlled reports.
 
 ## Server setup
 
@@ -24,7 +24,7 @@ The Pages and Netcup builds both read `PUBLIC_RUNNER_API_URL`, such as `https://
 ## Runner controls
 
 - One concurrent run and five-minute global cooldown.
-- Ten accepted requests per source IP per hour, enough to exercise all five destinations while limiting abuse.
+- Fourteen accepted requests per source IP per hour, enough to exercise both suite levels across all seven destinations while limiting abuse.
 - Three-minute quick-suite timeout and ten-minute full-regression timeout.
 - Maximum 20 runs and 24-hour retention.
 - 1 GiB memory, 1.5 CPU, 256 process limit, dropped capabilities, read-only root filesystem.
