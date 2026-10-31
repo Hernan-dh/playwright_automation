@@ -23,7 +23,7 @@ jobs:
           NETCUP_KNOWN_HOSTS: ${{ secrets.NETCUP_KNOWN_HOSTS }}
         run: |
           install -m 700 -d ~/.ssh
-          printf '%s' "$NETCUP_SSH_KEY" > ~/.ssh/id_ed25519
+          printf '%s\n' "$NETCUP_SSH_KEY" > ~/.ssh/id_ed25519
           chmod 600 ~/.ssh/id_ed25519
           printf '%s\n' "$NETCUP_KNOWN_HOSTS" > ~/.ssh/known_hosts
       - name: Prepare runner deployment
