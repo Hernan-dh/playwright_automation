@@ -14,7 +14,7 @@ Generated reports are CI artifacts and are not committed. Record durable links, 
 | GitHub Actions manual portfolio run | Complete | Run [`41141799551`](https://github.com/Hernan-dh/playwright_automation/actions/runs/41141799551): showcase, both regression shards, smoke, containers, and report merge passed |
 | GitHub Actions portfolio evidence | Complete | Artifacts `portfolio-showcase` (`13019800203`) and `merged-html-report` (`13019830301`), retained by GitHub for 14 and 30 days respectively |
 | Public showcase runner | Complete | Five-site quick selector deployed; public runs passed 2/2 for every destination, ending with Automation Exercise run `20261031070811-3c513c` |
-| Five-site full regressions | Complete locally; public deployment pending | 40/40 safe scenarios passed on 2026-10-31: eight each for SauceDemo, The Internet, Test Pages, Expand Testing, and Automation Exercise |
+| Five-site full regressions | Complete locally and publicly | 40/40 passed on 2026-10-31. Public runs: SauceDemo `20261031072134-4acea5`; The Internet `20261031072148-418a8b`; Test Pages `20261031072202-e8e7a8`; Expand Testing `20261031072221-3eefca`; Automation Exercise `20261031072256-d16090` |
 | Jenkins portability reference | Optional; no pending acceptance work | `Jenkinsfile` plus local container preflight image `8c9bd267c762`, smoke 2/2. GitHub Actions is the authoritative CI environment |
 | Azure Playwright Workspaces | Intentionally inactive | Only record if a workspace is deliberately enabled |
 | Inspector | Optional demonstration | One-time screenshot or short recording; not required by verification or CI |
