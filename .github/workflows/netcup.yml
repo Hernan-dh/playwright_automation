@@ -15,6 +15,8 @@ jobs:
       - run: npx playwright install --with-deps chromium
       - run: npm run showcase
       - run: python scripts/build_portfolio_site.py
+        env:
+          PUBLIC_RUNNER_API_URL: ${{ vars.PUBLIC_RUNNER_API_URL }}
       - name: Configure deployment key
         env:
           NETCUP_SSH_KEY: ${{ secrets.NETCUP_SSH_KEY }}
@@ -24,11 +26,30 @@ jobs:
           printf '%s' "$NETCUP_SSH_KEY" > ~/.ssh/id_ed25519
           chmod 600 ~/.ssh/id_ed25519
           printf '%s\n' "$NETCUP_KNOWN_HOSTS" > ~/.ssh/known_hosts
-      - name: Publish static mirror
+      - name: Prepare runner deployment
+        run: |
+          mkdir -p netcup-app/deploy/netcup netcup-app/runner netcup-app/tests/context netcup-app/tests/network netcup-app/tests/ui
+          cp .dockerignore package.json package-lock.json playwright.showcase.config.ts netcup-app/
+          cp deploy/netcup/compose.yml deploy/netcup/nginx.conf netcup-app/deploy/netcup/
+          cp runner/Dockerfile runner/server.mjs netcup-app/runner/
+          cp tests/context/browser-context.spec.ts netcup-app/tests/context/
+          cp tests/network/routes.spec.ts netcup-app/tests/network/
+          cp tests/ui/browser-primitives.spec.ts netcup-app/tests/ui/
+      - name: Publish mirror and runner
         env:
           NETCUP_HOST: ${{ vars.NETCUP_HOST }}
           NETCUP_USER: ${{ vars.NETCUP_USER }}
           NETCUP_DEPLOY_PATH: ${{ vars.NETCUP_DEPLOY_PATH }}
+          NETCUP_APP_PATH: ${{ vars.NETCUP_APP_PATH }}
         run: |
-          case "$NETCUP_DEPLOY_PATH" in ""|"/") echo "Unsafe deployment path"; exit 1;; esac
+          case "$NETCUP_DEPLOY_PATH" in ""|"/") echo "Unsafe public path"; exit 1;; esac
+          case "$NETCUP_APP_PATH" in ""|"/") echo "Unsafe application path"; exit 1;; esac
+          [[ "$NETCUP_DEPLOY_PATH" =~ ^/[A-Za-z0-9._/-]+$ ]] || { echo "Invalid public path"; exit 1; }
+          [[ "$NETCUP_APP_PATH" =~ ^/[A-Za-z0-9._/-]+$ ]] || { echo "Invalid application path"; exit 1; }
+          # shellcheck disable=SC2029
+          ssh "$NETCUP_USER@$NETCUP_HOST" "mkdir -p '$NETCUP_DEPLOY_PATH' '$NETCUP_APP_PATH'"
           rsync -az --delete dist/ "$NETCUP_USER@$NETCUP_HOST:${NETCUP_DEPLOY_PATH%/}/"
+          rsync -az --delete netcup-app/ "$NETCUP_USER@$NETCUP_HOST:${NETCUP_APP_PATH%/}/"
+          # shellcheck disable=SC2029
+          ssh "$NETCUP_USER@$NETCUP_HOST" "cd '$NETCUP_APP_PATH' && PORTFOLIO_PUBLIC_DIR='$NETCUP_DEPLOY_PATH' docker compose -f deploy/netcup/compose.yml up -d --build --remove-orphans"
+          ssh "$NETCUP_USER@$NETCUP_HOST" "curl --fail --silent --show-error http://127.0.0.1:8080/qa-api/health"

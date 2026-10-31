@@ -1,5 +1,10 @@
 import { defineConfig, devices } from '@playwright/test';
 
+const outputRoot = process.env.SHOWCASE_OUTPUT_ROOT || 'portfolio-artifacts';
+const workers = process.env.SHOWCASE_WORKERS
+  ? Number.parseInt(process.env.SHOWCASE_WORKERS, 10)
+  : undefined;
+
 export default defineConfig({
   testDir: './tests',
   testMatch: [
@@ -8,12 +13,13 @@ export default defineConfig({
     '**/ui/browser-primitives.spec.ts',
   ],
   fullyParallel: true,
+  workers,
   retries: 0,
   reporter: [
     ['line'],
-    ['html', { outputFolder: 'portfolio-artifacts/html-report', open: 'never' }],
+    ['html', { outputFolder: `${outputRoot}/html-report`, open: 'never' }],
   ],
-  outputDir: 'portfolio-artifacts/test-results',
+  outputDir: `${outputRoot}/test-results`,
   use: {
     actionTimeout: 10_000,
     screenshot: 'on',

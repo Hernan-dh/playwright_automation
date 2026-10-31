@@ -41,5 +41,6 @@
 | Portfolio trace showcase | `playwright.showcase.config.ts`, `npm run showcase` | Implemented; passing runs retain screenshots and traces |
 | Public evidence website | `portfolio`, `scripts/build_portfolio_site.py`, GitHub Pages | Implemented; deployment awaits the first published workflow run |
 | Public Netcup mirror | `deploy/netcup`, `.github/workflows/netcup.yml` | Optional and repository-ready; requires server variables and SSH secret |
+| Controlled public test execution | `runner`, Netcup Compose, portfolio runner UI | Implemented; deployment and first public run pending server configuration |
 
 The repository keeps Playwright Test as the single primary runner. Cucumber provides a focused BDD example, while the Mocha guide explains migration without duplicating the suite.

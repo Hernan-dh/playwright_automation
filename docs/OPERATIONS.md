@@ -23,7 +23,9 @@ npm run portfolio:build
 
 The command reruns the controlled showcase and writes the public site plus HTML report to ignored `dist/`. `.github/workflows/pages.yml` publishes that build to GitHub Pages on `main` and on manual dispatch. Enable Pages with GitHub Actions as its source once for the repository.
 
-The opt-in `.github/workflows/netcup.yml` produces the same build and mirrors it over SSH only when `NETCUP_DEPLOY_ENABLED=true`. Server and repository configuration are documented in `deploy/netcup/README.md`. Netcup is a public mirror, not a CI dependency; a server outage never blocks testing or the primary Pages site.
+The opt-in `.github/workflows/netcup.yml` produces the same build and deploys both the static mirror and the minimal controlled runner bundle over SSH only when `NETCUP_DEPLOY_ENABLED=true`. It recreates the Compose services and verifies their loopback health endpoint. Server and repository configuration are documented in `deploy/netcup/README.md`. Netcup is a public mirror, not a CI dependency; a server outage never blocks testing or the primary Pages site.
+
+The public runner is disabled in the Pages UI until the repository variable `PUBLIC_RUNNER_API_URL` is set. Use the externally reachable API base including `/qa-api`, for example `https://example.test/qa-api`. The button then requests a fixed showcase, polls its public status, and links to the generated report. Never point this variable at an administrative service or an endpoint that accepts arbitrary test input.
 
 The `Jenkinsfile` is an optional portability reference for teams that use Jenkins. Its container preflight completed the smoke suite 2/2 in the pinned Playwright image. A Jenkins controller run is deliberately outside the portfolio acceptance criteria because GitHub Actions is the authoritative CI environment and already publishes the required reports and evidence.
 

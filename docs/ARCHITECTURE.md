@@ -35,3 +35,9 @@ See [ADR 0001](decisions/0001-repository-managed-documentation-and-publishing.md
 The controlled showcase produces traces, screenshots, and an HTML report without private credentials or production data. `scripts/build_portfolio_site.py` combines that report with the static `portfolio` source into the ignored `dist` directory. GitHub Pages is the authoritative public site. The optional Netcup workflow deploys the identical build to a public Nginx mirror, so hosting differences cannot change test evidence.
 
 The public QA site links back to the main professional portfolio's independently deployed GitHub Pages site, whose bilingual project card provides stable context and links to both this evidence site and its source repository. The repositories remain independently deployable and neither site is embedded in the other. A Netcup domain may mirror either site later without becoming a navigation dependency.
+
+## Public showcase runner
+
+The optional Netcup runner exposes only `POST /qa-api/runs`, `GET /qa-api/runs/latest`, `GET /qa-api/runs/{id}`, and a health endpoint. Requests cannot select a command, test, URL, branch, browser, or environment variable. The service always launches `npm run showcase` with a unique output directory and publishes only the controlled HTML report.
+
+The runner container has no repository or provider secrets, uses a read-only root filesystem, drops Linux capabilities, limits processes, memory and CPU, and writes only to its result volume. The API enforces one concurrent run, a global cooldown, per-IP rate limiting, a timeout, bounded logs, result retention, and a maximum run count. GitHub Pages is a separate static failure boundary: if Netcup is unavailable, the published site and its last CI report continue to work.

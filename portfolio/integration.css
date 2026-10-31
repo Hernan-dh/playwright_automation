@@ -1,1 +1,14 @@
 .footer-links { display: flex; flex-wrap: wrap; gap: 1.2rem; }
+.runner-section { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(300px, .75fr); gap: clamp(2rem, 6vw, 6rem); align-items: center; }
+.runner-copy h2 { margin: 0 0 1rem; font-size: clamp(2.2rem, 4vw, 4rem); line-height: 1; letter-spacing: -.05em; }
+.runner-copy > p:not(.eyebrow) { max-width: 680px; color: var(--muted); }
+.runner-actions { display: flex; flex-wrap: wrap; gap: .8rem; margin-top: 1.6rem; }
+.runner-actions button { border: 0; cursor: pointer; }
+.runner-actions button:disabled { cursor: not-allowed; filter: grayscale(1); opacity: .55; }
+.dark-button { border-color: var(--line); color: var(--ink); }
+.runner-status { padding: 1.5rem; border: 1px solid var(--line); background: var(--card); }
+.runner-state { display: block; min-height: 3rem; color: var(--muted); }
+.runner-status dl div { border-color: var(--line); }
+.runner-status dt { color: var(--muted); }
+.runner-status dd, .runner-status dd a { color: var(--ink); }
+@media (max-width: 800px) { .runner-section { grid-template-columns: 1fr; } }

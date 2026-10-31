@@ -12,7 +12,7 @@ if OUTPUT.resolve().parent != ROOT.resolve() or OUTPUT.name != "dist": raise Sys
 if OUTPUT.exists(): shutil.rmtree(OUTPUT)
 shutil.copytree(SOURCE, OUTPUT)
 shutil.copytree(REPORT, OUTPUT / "report")
-status = {"commit": os.getenv("GITHUB_SHA", "local"), "generatedAt": datetime.now(timezone.utc).isoformat(), "runUrl": f"{os.getenv('GITHUB_SERVER_URL')}/{os.getenv('GITHUB_REPOSITORY')}/actions/runs/{os.getenv('GITHUB_RUN_ID')}" if os.getenv("GITHUB_RUN_ID") else ""}
+status = {"commit": os.getenv("GITHUB_SHA", "local"), "generatedAt": datetime.now(timezone.utc).isoformat(), "runUrl": f"{os.getenv('GITHUB_SERVER_URL')}/{os.getenv('GITHUB_REPOSITORY')}/actions/runs/{os.getenv('GITHUB_RUN_ID')}" if os.getenv("GITHUB_RUN_ID") else "", "runnerApiUrl": os.getenv("PUBLIC_RUNNER_API_URL", "")}
 (OUTPUT / "status.json").write_text(json.dumps(status, indent=2), encoding="utf-8")
 (OUTPUT / ".nojekyll").touch()
 print(f"Portfolio built at {OUTPUT} with report from {REPORT}.")
