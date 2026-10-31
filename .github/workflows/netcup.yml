@@ -37,8 +37,8 @@ jobs:
           cp tests/ui/browser-primitives.spec.ts netcup-app/tests/ui/
       - name: Publish mirror and runner
         env:
-          NETCUP_HOST: ${{ vars.NETCUP_HOST }}
-          NETCUP_USER: ${{ vars.NETCUP_USER }}
+          NETCUP_HOST: ${{ secrets.NETCUP_HOST }}
+          NETCUP_USER: ${{ secrets.NETCUP_USER }}
           NETCUP_DEPLOY_PATH: ${{ vars.NETCUP_DEPLOY_PATH }}
           NETCUP_APP_PATH: ${{ vars.NETCUP_APP_PATH }}
         run: |
@@ -51,5 +51,5 @@ jobs:
           rsync -az --delete dist/ "$NETCUP_USER@$NETCUP_HOST:${NETCUP_DEPLOY_PATH%/}/"
           rsync -az --delete netcup-app/ "$NETCUP_USER@$NETCUP_HOST:${NETCUP_APP_PATH%/}/"
           # shellcheck disable=SC2029
-          ssh "$NETCUP_USER@$NETCUP_HOST" "cd '$NETCUP_APP_PATH' && PORTFOLIO_PUBLIC_DIR='$NETCUP_DEPLOY_PATH' docker compose -f deploy/netcup/compose.yml up -d --build --remove-orphans"
-          ssh "$NETCUP_USER@$NETCUP_HOST" "curl --fail --silent --show-error http://127.0.0.1:8080/qa-api/health"
+          ssh "$NETCUP_USER@$NETCUP_HOST" "cd '$NETCUP_APP_PATH' && PORTFOLIO_PUBLIC_DIR='$NETCUP_DEPLOY_PATH' sudo -n docker compose -f deploy/netcup/compose.yml up -d --build --remove-orphans"
+          ssh "$NETCUP_USER@$NETCUP_HOST" "curl --fail --silent --show-error http://127.0.0.1:7870/qa-api/health"

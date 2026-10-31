@@ -7,7 +7,8 @@ import { join, resolve, sep } from 'node:path';
 const port = Number(process.env.RUNNER_PORT || 3000);
 const dataRoot = resolve(process.env.RUNNER_DATA_ROOT || '/data/runs');
 const publicRunsBase = (process.env.PUBLIC_RUNS_BASE || '/qa-runs').replace(/\/$/, '');
-const allowedOrigin = process.env.ALLOWED_ORIGIN || 'https://hernan-dh.github.io';
+const allowedOrigins = new Set((process.env.ALLOWED_ORIGINS || 'https://hernan-dh.github.io').split(',').map(value => value.trim()).filter(Boolean));
+const defaultOrigin = [...allowedOrigins][0];
 const cooldownMs = Number(process.env.RUNNER_COOLDOWN_MS || 300_000);
 const timeoutMs = Number(process.env.RUNNER_TIMEOUT_MS || 120_000);
 const retentionMs = Number(process.env.RUNNER_RETENTION_MS || 86_400_000);
@@ -48,7 +49,7 @@ function json(response, status, body, origin) {
 
 function requestOrigin(request) {
   const origin = request.headers.origin;
-  return !origin || origin === allowedOrigin ? (origin || allowedOrigin) : '';
+  return !origin || allowedOrigins.has(origin) ? (origin || defaultOrigin) : '';
 }
 
 function clientIp(request) {
@@ -113,7 +114,7 @@ async function createRun() {
 await loadRuns();
 const server = createServer(async (request, response) => {
   const origin = requestOrigin(request);
-  if (!origin) return json(response, 403, { message: 'Origin not allowed.' }, allowedOrigin);
+  if (!origin) return json(response, 403, { message: 'Origin not allowed.' }, defaultOrigin);
   if (request.method === 'OPTIONS') { response.writeHead(204, { 'Access-Control-Allow-Origin': origin, 'Access-Control-Allow-Methods': 'GET, POST, OPTIONS', 'Access-Control-Allow-Headers': 'Content-Type', 'Access-Control-Max-Age': '600' }); return response.end(); }
   const url = new URL(request.url, 'http://runner.local');
   if (request.method === 'GET' && url.pathname === '/qa-api/health') return json(response, 200, { status: 'ok', active: Boolean(activeRun) }, origin);

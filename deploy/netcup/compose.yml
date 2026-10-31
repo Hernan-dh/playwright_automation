@@ -3,7 +3,7 @@ services:
     image: nginx:1.29-alpine
     restart: unless-stopped
     ports:
-      - "127.0.0.1:8080:80"
+      - "127.0.0.1:7870:80"
     volumes:
       - ${PORTFOLIO_PUBLIC_DIR:-/var/www/playwright-portfolio}:/usr/share/nginx/html:ro
       - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
@@ -24,7 +24,7 @@ services:
     volumes:
       - runner-data:/data
     environment:
-      ALLOWED_ORIGIN: ${RUNNER_ALLOWED_ORIGIN:-https://hernan-dh.github.io}
+      ALLOWED_ORIGINS: ${RUNNER_ALLOWED_ORIGINS:-https://hernan-dh.github.io,https://portfolio-hdh.duckdns.org}
       PUBLIC_RUNS_BASE: ${PUBLIC_RUNS_BASE:-/qa-runs}
       RUNNER_COOLDOWN_MS: ${RUNNER_COOLDOWN_MS:-300000}
       RUNNER_TIMEOUT_MS: ${RUNNER_TIMEOUT_MS:-120000}
