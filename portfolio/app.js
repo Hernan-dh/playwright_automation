@@ -2,7 +2,7 @@ const ui = {
   commit: document.querySelector('#commit-link'), generated: document.querySelector('#generated-at'), run: document.querySelector('#run-link'),
   button: document.querySelector('#run-showcase'), state: document.querySelector('#runner-state'), id: document.querySelector('#runner-id'),
   result: document.querySelector('#runner-result'), updated: document.querySelector('#runner-updated'), latest: document.querySelector('#latest-run-link'),
-  site: document.querySelector('#runner-site'), siteResult: document.querySelector('#runner-site-result'), target: document.querySelector('#runner-target'),
+  site: document.querySelector('#runner-site'), suite: document.querySelector('#runner-suite'), siteResult: document.querySelector('#runner-site-result'), suiteResult: document.querySelector('#runner-suite-result'), target: document.querySelector('#runner-target'),
 };
 let runnerApi = '';
 let pollTimer;
@@ -11,6 +11,7 @@ function displayRunner(run) {
   if (!run) return;
   ui.id.textContent = run.id;
   ui.siteResult.textContent = run.siteLabel || run.site || '—';
+  ui.suiteResult.textContent = run.suite || '—';
   ui.result.textContent = run.status;
   ui.updated.textContent = new Date(run.updatedAt).toLocaleString();
   ui.state.textContent = run.message || `Showcase ${run.status}.`;
@@ -31,7 +32,7 @@ async function requestRun() {
   ui.button.disabled = true;
   ui.state.textContent = 'Requesting a controlled showcase run…';
   try {
-    const response = await fetch(`${runnerApi}/runs`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ site: ui.site.value }) });
+    const response = await fetch(`${runnerApi}/runs`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ site: ui.site.value, suite: ui.suite.value }) });
     const body = await response.json();
     if (!response.ok) throw new Error(body.message || 'Run request rejected.');
     displayRunner(body);
@@ -42,11 +43,12 @@ async function loadLatestSite() {
   const option = ui.site.selectedOptions[0];
   ui.target.href = option.dataset.url;
   ui.target.textContent = `Open ${option.textContent}`;
-  ui.state.textContent = `Ready to run two scenarios against ${option.textContent}.`;
-  ui.id.textContent = '—'; ui.siteResult.textContent = option.textContent; ui.result.textContent = 'Not run'; ui.updated.textContent = '—';
+  const count = ui.suite.value === 'full' ? option.dataset.fullTests : option.dataset.quickTests;
+  ui.state.textContent = `Ready to run ${count} ${ui.suite.value} scenarios against ${option.textContent}.`;
+  ui.id.textContent = '—'; ui.siteResult.textContent = option.textContent; ui.suiteResult.textContent = ui.suite.value; ui.result.textContent = 'Not run'; ui.updated.textContent = '—';
   ui.latest.href = 'report/index.html'; ui.latest.textContent = 'View published report';
   try {
-    const response = await fetch(`${runnerApi}/runs/latest?site=${encodeURIComponent(ui.site.value)}`);
+    const response = await fetch(`${runnerApi}/runs/latest?site=${encodeURIComponent(ui.site.value)}&suite=${encodeURIComponent(ui.suite.value)}`);
     if (response.ok) displayRunner(await response.json());
   } catch { /* The selected site can still be requested. */ }
 }
@@ -56,10 +58,11 @@ async function configureSites() {
   if (!response.ok) throw new Error('Approved sites are temporarily unavailable.');
   const body = await response.json();
   ui.site.replaceChildren(...body.sites.map(site => {
-    const option = document.createElement('option'); option.value = site.id; option.textContent = `${site.label} (${site.tests} tests)`; option.dataset.url = site.targetUrl; return option;
+    const option = document.createElement('option'); option.value = site.id; option.textContent = site.label; option.dataset.url = site.targetUrl; option.dataset.quickTests = site.quickTests; option.dataset.fullTests = site.fullTests; return option;
   }));
   ui.site.disabled = false; ui.button.disabled = false; ui.button.textContent = 'Run selected site';
   ui.site.addEventListener('change', loadLatestSite);
+  ui.suite.addEventListener('change', loadLatestSite);
   await loadLatestSite();
 }
 

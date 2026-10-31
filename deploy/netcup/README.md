@@ -25,7 +25,7 @@ The Pages and Netcup builds both read `PUBLIC_RUNNER_API_URL`, such as `https://
 
 - One concurrent run and five-minute global cooldown.
 - Ten accepted requests per source IP per hour, enough to exercise all five destinations while limiting abuse.
-- Three-minute execution timeout.
+- Three-minute quick-suite timeout and ten-minute full-regression timeout.
 - Maximum 20 runs and 24-hour retention.
 - 1 GiB memory, 1.5 CPU, 256 process limit, dropped capabilities, read-only root filesystem.
 - Only `npm run public-site`; the selected identifier maps to one fixed spec and never becomes a command or URL.

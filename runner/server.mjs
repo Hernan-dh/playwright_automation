@@ -11,19 +11,20 @@ const allowedOrigins = new Set((process.env.ALLOWED_ORIGINS || 'https://hernan-d
 const defaultOrigin = [...allowedOrigins][0];
 const cooldownMs = Number(process.env.RUNNER_COOLDOWN_MS || 300_000);
 const timeoutMs = Number(process.env.RUNNER_TIMEOUT_MS || 180_000);
+const fullTimeoutMs = Number(process.env.RUNNER_FULL_TIMEOUT_MS || 600_000);
 const retentionMs = Number(process.env.RUNNER_RETENTION_MS || 86_400_000);
 const maxRuns = Number(process.env.RUNNER_MAX_RUNS || 20);
 const rateWindowMs = 3_600_000;
 const maxRequestsPerWindow = 10;
 const sites = Object.freeze({
-  saucedemo: { label: 'SauceDemo', targetUrl: 'https://www.saucedemo.com/', expectedTests: 2 },
-  'the-internet': { label: 'The Internet', targetUrl: 'https://the-internet.herokuapp.com/', expectedTests: 2 },
-  'test-pages': { label: 'Test Pages', targetUrl: 'https://testpages.eviltester.com/', expectedTests: 2 },
-  'expand-testing': { label: 'Expand Testing', targetUrl: 'https://practice.expandtesting.com/', expectedTests: 2 },
-  'automation-exercise': { label: 'Automation Exercise', targetUrl: 'https://automationexercise.com/', expectedTests: 2 },
+  saucedemo: { label: 'SauceDemo', targetUrl: 'https://www.saucedemo.com/', quickTests: 2, fullTests: 8 },
+  'the-internet': { label: 'The Internet', targetUrl: 'https://the-internet.herokuapp.com/', quickTests: 2, fullTests: 8 },
+  'test-pages': { label: 'Test Pages', targetUrl: 'https://testpages.eviltester.com/', quickTests: 2, fullTests: 8 },
+  'expand-testing': { label: 'Expand Testing', targetUrl: 'https://practice.expandtesting.com/', quickTests: 2, fullTests: 8 },
+  'automation-exercise': { label: 'Automation Exercise', targetUrl: 'https://automationexercise.com/', quickTests: 2, fullTests: 8 },
 });
 const rateByIp = new Map();
-const latestBySite = new Map();
+const latestBySelection = new Map();
 let activeRun;
 let latestRun;
 
@@ -40,7 +41,7 @@ async function save(run) {
   await mkdir(runPath(run.id), { recursive: true });
   await writeFile(join(runPath(run.id), 'metadata.json'), JSON.stringify(run, null, 2), 'utf8');
   latestRun = run;
-  latestBySite.set(run.site, run);
+  latestBySelection.set(`${run.site}:${run.suite}`, run);
 }
 
 function publicRun(run, { reused = false } = {}) {
@@ -48,7 +49,7 @@ function publicRun(run, { reused = false } = {}) {
 }
 
 function publicSites() {
-  return Object.entries(sites).map(([id, site]) => ({ id, label: site.label, targetUrl: site.targetUrl, tests: site.expectedTests }));
+  return Object.entries(sites).map(([id, site]) => ({ id, label: site.label, targetUrl: site.targetUrl, quickTests: site.quickTests, fullTests: site.fullTests }));
 }
 
 function json(response, status, body, origin) {
@@ -86,17 +87,18 @@ async function loadRuns() {
   const retainedIds = new Set(retained.map(item => item.id));
   for (const stale of candidates.filter(item => !retainedIds.has(item.id))) await rm(runPath(stale.id), { recursive: true, force: true });
   latestRun = retained[0];
-  for (const run of retained) if (run.site && !latestBySite.has(run.site)) latestBySite.set(run.site, run);
+  for (const run of retained) if (run.site && run.suite && !latestBySelection.has(`${run.site}:${run.suite}`)) latestBySelection.set(`${run.site}:${run.suite}`, run);
 }
 
 async function execute(run) {
   activeRun = run;
   const site = sites[run.site];
-  run.status = 'running'; run.message = `${site.expectedTests} Chromium scenarios are running against ${site.label}.`; await save(run);
+  const expectedTests = run.suite === 'full' ? site.fullTests : site.quickTests;
+  run.status = 'running'; run.message = `${expectedTests} ${run.suite} Chromium scenarios are running against ${site.label}.`; await save(run);
   const outputRoot = runPath(run.id);
   const child = spawn('npm', ['run', 'public-site'], {
     cwd: '/work', shell: false, detached: process.platform !== 'win32',
-    env: { ...process.env, CI: '1', FORCE_COLOR: '0', PUBLIC_SITE_ID: run.site, SHOWCASE_OUTPUT_ROOT: outputRoot },
+    env: { ...process.env, CI: '1', FORCE_COLOR: '0', PUBLIC_SITE_ID: run.site, PUBLIC_SUITE: run.suite, SHOWCASE_OUTPUT_ROOT: outputRoot },
     stdio: ['ignore', 'pipe', 'pipe'],
   });
   const logFile = join(outputRoot, 'runner.log');
@@ -105,7 +107,7 @@ async function execute(run) {
   child.stdout.on('data', collect); child.stderr.on('data', collect);
   const timer = setTimeout(() => {
     if (process.platform === 'win32') child.kill('SIGKILL'); else process.kill(-child.pid, 'SIGKILL');
-  }, timeoutMs);
+  }, run.suite === 'full' ? fullTimeoutMs : timeoutMs);
   const exitCode = await new Promise(resolveExit => {
     let settled = false;
     const finish = code => { if (!settled) { settled = true; resolveExit(code ?? -1); } };
@@ -117,19 +119,19 @@ async function execute(run) {
   let reportExists = true;
   try { await access(join(outputRoot, 'html-report', 'index.html')); } catch { reportExists = false; }
   run.status = exitCode === 0 ? 'passed' : 'failed';
-  run.tests = exitCode === 0 ? site.expectedTests : undefined;
+  run.tests = exitCode === 0 ? expectedTests : undefined;
   run.reportUrl = reportExists ? `${publicRunsBase}/${run.id}/html-report/index.html` : undefined;
-  run.message = exitCode === 0 ? `${site.expectedTests}/${site.expectedTests} scenarios passed on ${site.label}.` : `${site.label} failed or timed out${reportExists ? '; inspect the report.' : '.'}`;
+  run.message = exitCode === 0 ? `${expectedTests}/${expectedTests} ${run.suite} scenarios passed on ${site.label}.` : `${site.label} ${run.suite} suite failed or timed out${reportExists ? '; inspect the report.' : '.'}`;
   await save(run);
   activeRun = undefined;
 }
 
-async function createRun(siteId) {
-  if (activeRun) return activeRun.site === siteId ? { run: activeRun, reused: true } : { conflict: true, run: activeRun };
-  const recent = latestBySite.get(siteId);
+async function createRun(siteId, suite) {
+  if (activeRun) return activeRun.site === siteId && activeRun.suite === suite ? { run: activeRun, reused: true } : { conflict: true, run: activeRun };
+  const recent = latestBySelection.get(`${siteId}:${suite}`);
   if (recent && Date.now() - Date.parse(recent.createdAt) < cooldownMs) return { run: recent, reused: true };
   const site = sites[siteId];
-  const run = { id: `${new Date().toISOString().replace(/[-:.TZ]/g, '').slice(0, 14)}-${randomBytes(3).toString('hex')}`, site: siteId, siteLabel: site.label, targetUrl: site.targetUrl, status: 'queued', createdAt: new Date().toISOString(), updatedAt: new Date().toISOString(), message: `${site.label} queued.` };
+  const run = { id: `${new Date().toISOString().replace(/[-:.TZ]/g, '').slice(0, 14)}-${randomBytes(3).toString('hex')}`, site: siteId, suite, siteLabel: site.label, targetUrl: site.targetUrl, status: 'queued', createdAt: new Date().toISOString(), updatedAt: new Date().toISOString(), message: `${site.label} ${suite} suite queued.` };
   await save(run);
   execute(run).catch(async error => { run.status = 'failed'; run.message = 'Runner orchestration failed.'; run.error = error.name; await save(run); activeRun = undefined; });
   return { run, reused: false };
@@ -156,8 +158,10 @@ const server = createServer(async (request, response) => {
   if (request.method === 'GET' && url.pathname === '/qa-api/sites') return json(response, 200, { sites: publicSites() }, origin);
   if (request.method === 'GET' && url.pathname === '/qa-api/runs/latest') {
     const selected = url.searchParams.get('site');
+    const suite = url.searchParams.get('suite') || 'quick';
     if (selected && !sites[selected]) return json(response, 400, { message: 'Unknown site selection.' }, origin);
-    const run = selected ? latestBySite.get(selected) : latestRun;
+    if (!['quick', 'full'].includes(suite)) return json(response, 400, { message: 'Unknown suite selection.' }, origin);
+    const run = selected ? latestBySelection.get(`${selected}:${suite}`) : latestRun;
     return run ? json(response, 200, publicRun(run), origin) : json(response, 404, { message: 'No public run yet.' }, origin);
   }
   const match = url.pathname.match(/^\/qa-api\/runs\/([0-9]{14}-[a-f0-9]{6})$/);
@@ -170,8 +174,8 @@ const server = createServer(async (request, response) => {
     if (!rateAllowed(clientIp(request))) return json(response, 429, { message: 'Rate limit reached. Try again later.' }, origin);
     let body;
     try { body = await readJson(request); } catch { return json(response, 400, { message: 'A small JSON request is required.' }, origin); }
-    if (!body || typeof body.site !== 'string' || !sites[body.site] || Object.keys(body).some(key => key !== 'site')) return json(response, 400, { message: 'Choose one approved site.' }, origin);
-    const created = await createRun(body.site);
+    if (!body || typeof body.site !== 'string' || !sites[body.site] || !['quick', 'full'].includes(body.suite) || Object.keys(body).some(key => !['site', 'suite'].includes(key))) return json(response, 400, { message: 'Choose one approved site and suite.' }, origin);
+    const created = await createRun(body.site, body.suite);
     if (created.conflict) return json(response, 409, { message: `${created.run.siteLabel} is already running. Try again shortly.`, activeRun: publicRun(created.run) }, origin);
     return json(response, created.reused ? 200 : 202, publicRun(created.run, created), origin);
   }

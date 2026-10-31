@@ -4,6 +4,7 @@
 .runner-copy > p:not(.eyebrow) { max-width: 680px; color: var(--muted); }
 .runner-actions { display: flex; flex-wrap: wrap; gap: .8rem; margin-top: 1.6rem; }
 .site-picker { display: grid; gap: .45rem; margin-top: 1.5rem; max-width: 34rem; font-size: .78rem; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
+.picker-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; max-width: 44rem; }
 .site-picker select { width: 100%; border: 1px solid var(--ink); background: #fff; color: var(--ink); padding: .85rem 1rem; font: inherit; font-size: .95rem; letter-spacing: 0; text-transform: none; }
 .site-picker select:focus { outline: 3px solid var(--accent); outline-offset: 2px; }
 .target-link { margin: .65rem 0 0; font-size: .9rem; }
@@ -16,3 +17,4 @@
 .runner-status dt { color: var(--muted); }
 .runner-status dd, .runner-status dd a { color: var(--ink); }
 @media (max-width: 800px) { .runner-section { grid-template-columns: 1fr; } }
+@media (max-width: 560px) { .picker-grid { grid-template-columns: 1fr; } }

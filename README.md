@@ -56,7 +56,7 @@ For a portfolio demonstration with traces and screenshots retained on successful
 
 `npm run portfolio:build` creates a buildless static site in `dist/` and embeds the controlled showcase report. GitHub Pages is the primary public destination through `.github/workflows/pages.yml`. The same build can be mirrored to a public Netcup server with the opt-in workflow and Nginx configuration under `deploy/netcup`; see [operations](docs/OPERATIONS.md).
 
-The optional Netcup deployment also provides a rate-limited public runner for five allowlisted practice sites: SauceDemo, The Internet, Test Pages, Expand Testing, and Automation Exercise. A visitor may select a site, but cannot provide a URL, command, branch, credential, or test name. Each destination runs two fixed Chromium scenarios and publishes its own report. GitHub Pages reads the API URL from `PUBLIC_RUNNER_API_URL` and remains fully usable when that service is unavailable.
+The optional Netcup deployment also provides a rate-limited public runner for five allowlisted practice sites: SauceDemo, The Internet, Test Pages, Expand Testing, and Automation Exercise. A visitor may select a two-test quick check or an eight-test safe regression, but cannot provide a URL, command, branch, credential, or test name. Each execution publishes its own report. GitHub Pages reads the API URL from `PUBLIC_RUNNER_API_URL` and remains fully usable when that service is unavailable.
 
 ## Documentation and publishing automation
 
