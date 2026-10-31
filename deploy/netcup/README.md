@@ -4,7 +4,7 @@ Netcup is an optional public mirror of the same static `dist` directory deployed
 
 ## Server setup
 
-1. Use the existing deployment account with passwordless access to the narrowly scoped Docker command and two directories it owns: `/srv/portfolio-demos/playwright_automation/public` for public files and `/srv/portfolio-demos/playwright_automation` for the controlled application bundle.
+1. Use the existing deployment account with passwordless access to the narrowly scoped Docker command and two sibling directories it owns: `/srv/portfolio-demos/playwright-portfolio` for public files and `/srv/portfolio-demos/playwright_automation` for the controlled application bundle. Keeping them separate prevents application synchronization from deleting the static build.
 2. Point a public subdomain to the server and terminate HTTPS with the server's existing reverse proxy or certificate automation.
 3. The deployment workflow builds and starts Compose from the application directory. Nginx listens only on loopback port `7870`; the API is reachable only through Caddy.
 4. Keep the firewall, operating system, Docker, and reverse proxy patched.
@@ -13,7 +13,7 @@ The public reverse proxy forwards `/qa-api/*` and `/qa-runs/*` to `127.0.0.1:787
 
 ## GitHub configuration
 
-Repository variables: `NETCUP_DEPLOY_ENABLED=true`, `NETCUP_DEPLOY_PATH=/srv/portfolio-demos/playwright_automation/public`, `NETCUP_APP_PATH=/srv/portfolio-demos/playwright_automation`, and `PUBLIC_RUNNER_API_URL` with the HTTPS `/qa-api` URL.
+Repository variables: `NETCUP_DEPLOY_ENABLED=true`, `NETCUP_DEPLOY_PATH=/srv/portfolio-demos/playwright-portfolio`, `NETCUP_APP_PATH=/srv/portfolio-demos/playwright_automation`, and `PUBLIC_RUNNER_API_URL` with the HTTPS `/qa-api` URL.
 
 Repository secrets: `NETCUP_HOST`, `NETCUP_USER`, `NETCUP_SSH_KEY`, and `NETCUP_KNOWN_HOSTS`, matching the other public demo repositories.
 

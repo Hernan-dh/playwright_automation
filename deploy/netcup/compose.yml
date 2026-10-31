@@ -5,7 +5,7 @@ services:
     ports:
       - "127.0.0.1:7870:80"
     volumes:
-      - ${PORTFOLIO_PUBLIC_DIR:-/var/www/playwright-portfolio}:/usr/share/nginx/html:ro
+      - ${PORTFOLIO_PUBLIC_DIR:-/srv/portfolio-demos/playwright-portfolio}:/usr/share/nginx/html:ro
       - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
       - runner-data:/qa-runs:ro
     depends_on:
