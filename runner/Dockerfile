@@ -3,9 +3,11 @@ WORKDIR /work
 COPY package*.json ./
 RUN npm ci
 COPY playwright.showcase.config.ts ./
+COPY playwright.public.config.ts ./
 COPY tests/context ./tests/context
 COPY tests/network ./tests/network
 COPY tests/ui/browser-primitives.spec.ts ./tests/ui/browser-primitives.spec.ts
+COPY tests/public-sites ./tests/public-sites
 COPY runner/server.mjs ./runner/server.mjs
 RUN mkdir -p /data/runs && chown -R pwuser:pwuser /work /data
 USER pwuser

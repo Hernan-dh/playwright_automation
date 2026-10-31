@@ -1,5 +1,7 @@
 name: Publish Netcup Mirror
 on:
+  push:
+    branches: [main]
   workflow_dispatch: {}
 permissions:
   contents: read
@@ -28,13 +30,14 @@ jobs:
           printf '%s\n' "$NETCUP_KNOWN_HOSTS" > ~/.ssh/known_hosts
       - name: Prepare runner deployment
         run: |
-          mkdir -p netcup-app/deploy/netcup netcup-app/runner netcup-app/tests/context netcup-app/tests/network netcup-app/tests/ui
-          cp .dockerignore package.json package-lock.json playwright.showcase.config.ts netcup-app/
+          mkdir -p netcup-app/deploy/netcup netcup-app/runner netcup-app/tests/context netcup-app/tests/network netcup-app/tests/ui netcup-app/tests/public-sites
+          cp .dockerignore package.json package-lock.json playwright.showcase.config.ts playwright.public.config.ts netcup-app/
           cp deploy/netcup/compose.yml deploy/netcup/nginx.conf netcup-app/deploy/netcup/
           cp runner/Dockerfile runner/server.mjs netcup-app/runner/
           cp tests/context/browser-context.spec.ts netcup-app/tests/context/
           cp tests/network/routes.spec.ts netcup-app/tests/network/
           cp tests/ui/browser-primitives.spec.ts netcup-app/tests/ui/
+          cp tests/public-sites/*.spec.ts netcup-app/tests/public-sites/
       - name: Publish mirror and runner
         env:
           NETCUP_HOST: ${{ secrets.NETCUP_HOST }}

@@ -6,6 +6,7 @@ node_modules
 test-results
 playwright-report
 portfolio-artifacts
+public-site-artifacts
 dist
 runner-data
 allure-results

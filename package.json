@@ -19,6 +19,7 @@
     "test:cross-browser": "playwright test tests/cross-browser --project=chromium --project=firefox --project=webkit",
     "test:context": "playwright test tests/context --project=chromium",
     "showcase": "playwright test -c playwright.showcase.config.ts",
+    "public-site": "playwright test -c playwright.public.config.ts",
     "showcase:report": "playwright show-report portfolio-artifacts/html-report",
     "portfolio:build": "npm run showcase && python scripts/build_portfolio_site.py",
     "test:azure": "playwright test tests/cross-browser -c playwright.service.config.ts --workers=20",

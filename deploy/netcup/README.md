@@ -1,6 +1,6 @@
 # Public Netcup mirror
 
-Netcup is an optional public mirror of the same static `dist` directory deployed to GitHub Pages. It also runs the fixed public showcase behind a rate-limited API. The runner has no secrets, accepts no test parameters, and exposes only controlled reports.
+Netcup is an optional public mirror of the same static `dist` directory deployed to GitHub Pages. It also runs five fixed public-site suites behind a rate-limited API. The runner has no secrets, accepts only an allowlisted site identifier, and exposes controlled reports.
 
 ## Server setup
 
@@ -17,18 +17,18 @@ Repository variables: `NETCUP_DEPLOY_ENABLED=true`, `NETCUP_DEPLOY_PATH=/srv/por
 
 Repository secrets: `NETCUP_HOST`, `NETCUP_USER`, `NETCUP_SSH_KEY`, and `NETCUP_KNOWN_HOSTS`, matching the other public demo repositories.
 
-Run `Publish Netcup Mirror` manually. It rebuilds the controlled showcase, validates both absolute deployment paths, synchronizes the static site and minimal runner bundle, recreates the Compose services, and checks the private health endpoint.
+Every push to `main` runs `Publish Netcup Mirror` when `NETCUP_DEPLOY_ENABLED=true`; it can also be dispatched manually for recovery. The workflow rebuilds the controlled showcase, validates both absolute deployment paths, synchronizes the static site and minimal runner bundle, recreates the Compose services, and checks the private health endpoint.
 
 The Pages and Netcup builds both read `PUBLIC_RUNNER_API_URL`, such as `https://portfolio-hdh.duckdns.org/qa-api`. The frontend remains disabled when the variable is absent.
 
 ## Runner controls
 
 - One concurrent run and five-minute global cooldown.
-- Three accepted requests per source IP per hour.
-- Two-minute execution timeout.
+- Ten accepted requests per source IP per hour, enough to exercise all five destinations while limiting abuse.
+- Three-minute execution timeout.
 - Maximum 20 runs and 24-hour retention.
 - 1 GiB memory, 1.5 CPU, 256 process limit, dropped capabilities, read-only root filesystem.
-- Only `npm run showcase`; no request field influences the command.
+- Only `npm run public-site`; the selected identifier maps to one fixed spec and never becomes a command or URL.
 - Two Playwright workers by default, bounding browser process usage while retaining parallel execution.
 - CORS restricted to the GitHub Pages site and the Netcup mirror by default.
 
