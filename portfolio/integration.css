@@ -16,10 +16,5 @@
 .runner-status dl div { border-color: var(--line); }
 .runner-status dt { color: var(--muted); }
 .runner-status dd, .runner-status dd a { color: var(--ink); }
-.metrics article { min-height: 11rem; display: flex; flex-direction: column; justify-content: space-between; }
-.metrics strong { color: var(--green); }
-.metrics article:nth-child(2) strong { color: var(--accent); }
-.metrics article:nth-child(3) strong { color: #35698c; }
-.metrics article:nth-child(4) strong { color: var(--ink); }
 @media (max-width: 800px) { .runner-section { grid-template-columns: 1fr; } }
 @media (max-width: 560px) { .picker-grid { grid-template-columns: 1fr; } }

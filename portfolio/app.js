@@ -7,14 +7,6 @@ if (fullRegressionOption) fullRegressionOption.textContent = 'Full regression �
 document.querySelector('.runner-copy > p:not(.eyebrow)')?.replaceChildren(
   'Run a two-test smoke check or the complete fifteen-test safe regression against one of ten approved online systems, including AI Operations Desk, Ticketing, Fanny Pack Studios, Hernán de Haro Portfolio, and the QA Portfolio. The runner accepts only these fixed destinations and suites—never arbitrary URLs, commands, branches, credentials, or test names.'
 );
-function renderMetrics(sites = 10, fullCases = 15) {
-  const values = [197, sites * fullCases, sites, 0];
-  document.querySelectorAll('.metrics article').forEach((metric, index) => {
-    const value = metric.querySelector('strong');
-    if (value) value.textContent = String(values[index]);
-  });
-}
-renderMetrics();
 const originalText = new WeakMap();
 let language;
 try { language = localStorage.getItem('playwright-portfolio-language') || (navigator.language.toLowerCase().startsWith('es') ? 'es' : 'en'); } catch { language = navigator.language.toLowerCase().startsWith('es') ? 'es' : 'en'; }
@@ -88,7 +80,6 @@ async function configureSites() {
   const response = await fetch(`${runnerApi}/sites`);
   if (!response.ok) throw new Error('Approved sites are temporarily unavailable.');
   const body = await response.json();
-  renderMetrics(body.sites.length, Math.max(...body.sites.map(site => Number(site.fullTests) || 0)));
   ui.site.replaceChildren(...body.sites.map(site => {
     const option = document.createElement('option'); option.value = site.id; option.textContent = site.label; option.dataset.url = site.targetUrl; option.dataset.quickTests = site.quickTests; option.dataset.fullTests = site.fullTests; return option;
   }));
