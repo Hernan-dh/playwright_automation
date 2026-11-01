@@ -3,7 +3,7 @@ import { defineConfig, devices } from '@playwright/test';
 const site = process.env.PUBLIC_SITE_ID;
 const suite = process.env.PUBLIC_SUITE || 'full';
 const outputRoot = process.env.SHOWCASE_OUTPUT_ROOT || 'public-site-artifacts';
-const allowedSites = new Set(['saucedemo', 'the-internet', 'test-pages', 'expand-testing', 'automation-exercise', 'ai-operations-desk', 'ticketing']);
+const allowedSites = new Set(['saucedemo', 'the-internet', 'test-pages', 'expand-testing', 'automation-exercise', 'ai-operations-desk', 'ticketing', 'fanny-pack-studios', 'hernan-portfolio', 'qa-portfolio-github']);
 
 if (!site || !allowedSites.has(site)) throw new Error('PUBLIC_SITE_ID must identify an approved public test site.');
 if (!['quick', 'full'].includes(suite)) throw new Error('PUBLIC_SUITE must be quick or full.');

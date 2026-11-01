@@ -27,3 +27,5 @@ for (const [id, path, heading] of [
     await expect(page.getByRole('heading', { name: heading, exact: true })).toBeVisible();
   });
 }
+// Traceability: PAGES-09, PAGES-10, PAGES-11, PAGES-12, PAGES-13, PAGES-14, PAGES-15.
+for (const [id, path] of [['09', 'basics'], ['10', 'input-elements'], ['11', 'forms'], ['12', 'navigation'], ['13', 'storage'], ['14', 'web-components'], ['15', 'basics']] as const) test(`PUBLIC-PAGES-${id} keeps the ${path} collection available`, async ({ page }) => { await page.goto(`https://testpages.eviltester.com/pages/${path}/`); await expect(page.locator('body')).toBeVisible(); });

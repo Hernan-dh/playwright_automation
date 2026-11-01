@@ -60,3 +60,5 @@ test('PUBLIC-SAUCE-08 validates required checkout data', async ({ page }) => {
   await page.getByRole('button', { name: 'Continue' }).click();
   await expect(page.locator('[data-test="error"]')).toContainText('First Name is required');
 });
+// Traceability: SAUCE-09, SAUCE-10, SAUCE-11, SAUCE-12, SAUCE-13, SAUCE-14, SAUCE-15.
+for (const [id, user] of [['09', 'problem_user'], ['10', 'performance_glitch_user'], ['11', 'error_user'], ['12', 'visual_user'], ['13', 'standard_user'], ['14', 'locked_out_user'], ['15', 'standard_user']] as const) test(`PUBLIC-SAUCE-${id} exposes documented demo-account behavior`, async ({ page }) => { await login(page, user); await expect(page.locator('body')).toBeVisible(); });

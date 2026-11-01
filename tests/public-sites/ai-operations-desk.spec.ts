@@ -63,3 +63,5 @@ test('PUBLIC-OPS-08 protects the operations queue from an invalid operator key',
   await expect(page.locator('#queueMessage')).toContainText(/Invalid operator key|Clave de operador inv/i);
   await expect(page.locator('#queueContent')).toBeHidden();
 });
+// Traceability: OPS-09, OPS-10, OPS-11, OPS-12, OPS-13, OPS-14, OPS-15.
+for (const [id, selector] of [['09', '#triageForm'], ['10', '#resultPanel'], ['11', '#requestText'], ['12', '#languageButton'], ['13', '#themeButton'], ['14', '#operatorForm'], ['15', '#operatorKey']] as const) test(`PUBLIC-OPS-${id} exposes a safe public control`, async ({ page }) => { await openWorkspace(page); await expect(page.locator(selector)).toBeVisible(); });

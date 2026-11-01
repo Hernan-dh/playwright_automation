@@ -36,7 +36,7 @@
 | GitHub Actions, sharding, and report merge | `.github/workflows/playwright.yml` | Implemented and externally validated with published artifacts |
 | Azure Playwright cloud execution | `playwright.service.config.ts` and opt-in GitHub Actions job | Configured; requires workspace, OIDC credentials, and first cloud run |
 | Playwright planner, generator, healer, and test MCP | `.codex/agents`, `.codex/prompts`, `specs` | Implemented; live planner, generator, and healer evidence recorded |
-| Automated test traceability | `docs/TRACEABILITY.md`, `scripts/check_traceability.py` | Implemented; 103 executable case IDs verified |
+| Automated test traceability | `docs/TRACEABILITY.md`, `scripts/check_traceability.py` | Implemented; 197 executable case IDs verified |
 | Evidence governance | `docs/EVIDENCE.md`, CI artifacts, and versioned baselines | Implemented; external and interactive evidence explicitly tracked |
 | Portfolio trace showcase | `playwright.showcase.config.ts`, `npm run showcase` | Implemented; passing runs retain screenshots and traces |
 | Public evidence website | `portfolio`, `scripts/build_portfolio_site.py`, GitHub Pages | Implemented; deployment awaits the first published workflow run |

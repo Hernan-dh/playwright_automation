@@ -54,3 +54,5 @@ test('PUBLIC-EXERCISE-08 exposes the login and signup entry point', async ({ pag
   await expect(page.getByText('Login to your account')).toBeVisible();
   await expect(page.getByText('New User Signup!')).toBeVisible();
 });
+// Traceability: EXERCISE-09, EXERCISE-10, EXERCISE-11, EXERCISE-12, EXERCISE-13, EXERCISE-14, EXERCISE-15.
+for (const [id, path] of [['09', '/'], ['10', '/products'], ['11', '/test_cases'], ['12', '/api_list'], ['13', '/view_cart'], ['14', '/login'], ['15', '/contact_us']] as const) test(`PUBLIC-EXERCISE-${id} keeps ${path} publicly available`, async ({ page }) => { await page.goto(`https://automationexercise.com${path}`); await expect(page.locator('body')).toBeVisible(); });

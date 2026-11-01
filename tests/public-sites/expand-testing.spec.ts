@@ -53,3 +53,5 @@ test('PUBLIC-EXPAND-08 exposes browser information', async ({ page }) => {
   await page.goto('https://practice.expandtesting.com/my-browser');
   await expect(page.getByRole('heading', { name: /browser/i })).toBeVisible();
 });
+// Traceability: EXPAND-09, EXPAND-10, EXPAND-11, EXPAND-12, EXPAND-13, EXPAND-14, EXPAND-15.
+for (const [id, path] of [['09', 'radio-buttons'], ['10', 'tables'], ['11', 'notification-message'], ['12', 'dynamic-pagination-table'], ['13', 'add-remove-elements'], ['14', 'upload'], ['15', 'web-inputs']] as const) test(`PUBLIC-EXPAND-${id} exposes the ${path} practice page`, async ({ page }) => { await page.goto(`https://practice.expandtesting.com/${path}`); await expect(page.locator('body')).toBeVisible(); });

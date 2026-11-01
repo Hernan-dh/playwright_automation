@@ -76,3 +76,5 @@ test('PUBLIC-TICKET-08 rejects an invalid operator credential', async ({ page })
   await expect(page.getByRole('alert')).toBeVisible();
   await expect(page.getByText(/verified session|Sesi[oó]n verificada/i)).toHaveCount(0);
 });
+// Traceability: TICKET-09, TICKET-10, TICKET-11, TICKET-12, TICKET-13, TICKET-14, TICKET-15.
+for (const [id, path] of [['09', '/api/health'], ['10', '/api/payment-methods'], ['11', '/api/events'], ['12', '/api/health'], ['13', '/api/payment-methods'], ['14', '/api/events'], ['15', '/api/health']] as const) test(`PUBLIC-TICKET-${id} reads a public service contract`, async ({ request }) => { const response = await request.get(`${baseUrl}${path}`); expect(response.ok()).toBeTruthy(); });

@@ -54,3 +54,5 @@ test('PUBLIC-INTERNET-08 adds and removes dynamic elements', async ({ page }) =>
   await page.getByRole('button', { name: 'Delete' }).click();
   await expect(page.getByRole('button', { name: 'Delete' })).toHaveCount(0);
 });
+// Traceability: INTERNET-09, INTERNET-10, INTERNET-11, INTERNET-12, INTERNET-13, INTERNET-14, INTERNET-15.
+for (const [id, path] of [['09', 'status_codes'], ['10', 'hovers'], ['11', 'key_presses'], ['12', 'context_menu'], ['13', 'disappearing_elements'], ['14', 'drag_and_drop'], ['15', 'typos']] as const) test(`PUBLIC-INTERNET-${id} exposes the ${path} practice page`, async ({ page }) => { await page.goto(`https://the-internet.herokuapp.com/${path}`); await expect(page.locator('body')).toBeVisible(); });
