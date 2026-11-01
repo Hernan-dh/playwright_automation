@@ -9,7 +9,7 @@ async function openHome(page: import('@playwright/test').Page) {
 test('@quick QAPORT-01 loads the QA engineering portfolio', async ({ page }) => {
   await openHome(page);
   await expect(page).toHaveTitle(/Playwright QA Engineering Portfolio/i);
-  await expect(page.getByRole('heading', { name: /Evidence-first testing/i })).toBeVisible();
+  await expect(page.getByRole('heading', { name: /End-to-End Testing Across the Stack/i })).toBeVisible();
 });
 
 test('@quick QAPORT-02 exposes the QA portfolio navigation', async ({ page }) => {

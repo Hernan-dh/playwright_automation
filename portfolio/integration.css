@@ -21,5 +21,6 @@
 .metrics article:nth-child(2) strong { color: var(--accent); }
 .metrics article:nth-child(3) strong { color: #35698c; }
 .metrics article:nth-child(4) strong { color: var(--ink); }
+.hero h1 { font-size: clamp(2.4rem, 4.5vw, 4.4rem); line-height: 1; letter-spacing: -.055em; }
 @media (max-width: 800px) { .runner-section { grid-template-columns: 1fr; } }
 @media (max-width: 560px) { .picker-grid { grid-template-columns: 1fr; } }
